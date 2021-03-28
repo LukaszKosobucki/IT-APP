@@ -1,14 +1,18 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { LOGIN } from "./constants/paths";
+import { Provider } from "react-redux";
+import store from "./store/config";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path={LOGIN} />
-      </Switch>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route path={LOGIN} />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
