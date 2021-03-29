@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store/config";
 import withAuth from "./hoc/withAuth";
 import HomePage from "./stacks/HomeStack/HomePage";
+import "./firebase/config";
 
 function App() {
   return (
