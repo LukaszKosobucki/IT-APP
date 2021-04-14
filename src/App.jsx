@@ -9,17 +9,16 @@ import "./firebase/config";
 
 
 function App() {
-
-  // return (
-  //   <Provider store={store}>
-  //     <BrowserRouter>
-  //       <Switch>
-  //         <Route path={LOGIN} />
-  //         <Route path={SIGN_UP} component={withAuth(HomePage)} />
-  //       </Switch>
-  //     </BrowserRouter>
-  //   </Provider>
-  // );
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route path={LOGIN} />
+          <Route path={SIGN_UP} component={withAuth(HomePage)} />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
+  );
 }
 
 export default App;
