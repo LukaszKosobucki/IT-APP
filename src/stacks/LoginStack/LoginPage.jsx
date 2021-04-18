@@ -1,5 +1,8 @@
-import React, { Component } from 'react'
-import styles from './LoginPage.module.css'
+import React, { Component } from 'react';
+import styles from './LoginPage.module.css';
+import { Link } from 'react-router-dom';
+import { SIGN_UP, LOST_PASS } from '../../constants/paths';
+import { auth } from '../../firebase/config'
 
 class LoginPage extends Component {
     state = {
@@ -15,6 +18,17 @@ class LoginPage extends Component {
         (event) => {
             event.preventDefault();
             //tu po prostu używasz danych ze state przez odwołanie się do nich przez np this.state.email
+            auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+                .then((userCredential) => {
+                    // Signed in
+                    console.log("Succesfully logger " + userCredential.user.email);
+                    // ...
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log(errorCode + " " + errorMessage);
+                });
         };
     render() {
         return (
@@ -24,36 +38,29 @@ class LoginPage extends Component {
                     <label>Email address</label>
                     <input type="email"
                         className={styles.textInput}
-                        value={email}
+                        value={this.state.email}
                         placeholder="Enter email"
-                        onChange={onChangeHandler("email")} />
+                        onChange={this.onChangeHandler("email")} />
                 </div>
                 <div className={styles.formGroup}>
                     <label>Password</label>
                     <input type="password"
                         className={styles.textInput}
-                        value={email}
+                        value={this.state.password}
                         placeholder="Enter password"
-                        onChange={onChangeHandler("password")} />
-                </div>
-                <div className={styles.formGroup}>
-                    <input type="remember"
-                        className={styles.checkboxInput}
-                        value={remember}
-                        onChange={onChangeHandler(remember)} />
-                    <label htmlFor="userRemember">Remember me</label>
+                        onChange={this.onChangeHandler("password")} />
                 </div>
                 <div className={styles.formGroup}>
                     <button type="submit" className={styles.buttonInput}
-                        onClick={signInWithEmailAndPasswordHandler}>
+                        onClick={this.signInWithEmailAndPasswordHandler}>
                         Submit
                         </button><p />
                 </div>
                 <div className={styles.formGroup}>
-                    <Link to="#" className={styles.aright}>
+                    <Link to={LOST_PASS} className={styles.aright}>
                         Forgot password
                     </Link>
-                    <Link to="#">
+                    <Link to={SIGN_UP}>
                         Sing up
                     </Link>
                 </div >
