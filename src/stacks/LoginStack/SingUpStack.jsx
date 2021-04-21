@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
 import styles from './Page.module.css';
 import { Link } from 'react-router-dom';
-import { SIGN_UP, LOST_PASS } from '../../constants/paths';
+import { LOGIN } from '../../constants/paths';
 import { auth } from '../../firebase/config'
 
-class LoginPage extends Component {
+class SignUpPage extends Component {
     state = {
         email: "",
         password: "",
+        passwordRepeat: "",
     }
 
     onChangeHandler = (property) => (event) => this.setState({
         [property]: event.target.value
     })
 
-    signInWithEmailAndPasswordHandler =
+    createUserWithEmailAndPasswordHandler =
         (event) => {
             event.preventDefault();
-            auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+            if (this.state.password !== this.state.passwordRepeat)
+            {
+                console.log("wrong pw");
+                return;
+            }
+            auth.createUserWithEmailAndPassword(this.state.email, this.state.password)
                 .then((userCredential) => {
-                    console.log("Succesfully logger " + userCredential.user.email);
+                    console.log("Succesfully signed up " + userCredential.user.email);
                 })
                 .catch((error) => {
                     var errorCode = error.code;
@@ -30,7 +36,7 @@ class LoginPage extends Component {
     render() {
         return (
             <form className={styles.centered}>
-                <h3>Log in</h3>
+                <h3>Sing up</h3>
                 <div className={styles.formGroup}>
                     <label>Email address</label>
                     <input type="email"
@@ -48,17 +54,22 @@ class LoginPage extends Component {
                         onChange={this.onChangeHandler("password")} />
                 </div>
                 <div className={styles.formGroup}>
+                    <label>Repeat password</label>
+                    <input type="password"
+                        className={styles.textInput}
+                        value={this.state.passwordRepeat}
+                        placeholder="Enter password"
+                        onChange={this.onChangeHandler("passwordRepeat")} />
+                </div>
+                <div className={styles.formGroup}>
                     <button type="submit" className={styles.buttonInput}
-                        onClick={this.signInWithEmailAndPasswordHandler}>
+                        onClick={this.createUserWithEmailAndPasswordHandler}>
                         Submit
                         </button><p />
                 </div>
                 <div className={styles.formGroup}>
-                    <Link to={LOST_PASS} className={styles.aright}>
-                        Forgot password
-                    </Link>
-                    <Link to={SIGN_UP}>
-                        Sing up
+                    <Link to={LOGIN}>
+                        Already have an account? Log in
                     </Link>
                 </div >
             </form >
@@ -66,4 +77,4 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+export default SignUpPage;

@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import styles from './Page.module.css';
-import { Link } from 'react-router-dom';
-import { SIGN_UP, LOST_PASS } from '../../constants/paths';
 import { auth } from '../../firebase/config'
+import { LOGIN } from '../../constants/paths'
+import { Link } from 'react-router-dom';
 
-class LoginPage extends Component {
+class LostPasswordPage extends Component {
     state = {
         email: "",
-        password: "",
     }
 
     onChangeHandler = (property) => (event) => this.setState({
         [property]: event.target.value
     })
 
-    signInWithEmailAndPasswordHandler =
+    sendPasswordResetEmail =
         (event) => {
             event.preventDefault();
-            auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-                .then((userCredential) => {
-                    console.log("Succesfully logger " + userCredential.user.email);
+            auth.sendPasswordResetEmail(this.state.email)
+                .then(() => {
+                    console.log("Succesfully sent email to " + this.state.email);
                 })
                 .catch((error) => {
                     var errorCode = error.code;
@@ -30,7 +29,7 @@ class LoginPage extends Component {
     render() {
         return (
             <form className={styles.centered}>
-                <h3>Log in</h3>
+                <h3>Forgot your password?</h3>
                 <div className={styles.formGroup}>
                     <label>Email address</label>
                     <input type="email"
@@ -40,25 +39,14 @@ class LoginPage extends Component {
                         onChange={this.onChangeHandler("email")} />
                 </div>
                 <div className={styles.formGroup}>
-                    <label>Password</label>
-                    <input type="password"
-                        className={styles.textInput}
-                        value={this.state.password}
-                        placeholder="Enter password"
-                        onChange={this.onChangeHandler("password")} />
-                </div>
-                <div className={styles.formGroup}>
                     <button type="submit" className={styles.buttonInput}
-                        onClick={this.signInWithEmailAndPasswordHandler}>
+                        onClick={this.sendPasswordResetEmail}>
                         Submit
                         </button><p />
                 </div>
                 <div className={styles.formGroup}>
-                    <Link to={LOST_PASS} className={styles.aright}>
-                        Forgot password
-                    </Link>
-                    <Link to={SIGN_UP}>
-                        Sing up
+                    <Link to={LOGIN}>
+                        Back to Login
                     </Link>
                 </div >
             </form >
@@ -66,4 +54,4 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+export default LostPasswordPage;
