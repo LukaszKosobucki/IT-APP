@@ -13,7 +13,6 @@ const TableHeader = () => {
 };
 
 const TableBody = (props) => {
-  console.log(props.data);
   const rows = props.data.map((row, index) => {
     return (
       <tr key={index}>
@@ -58,7 +57,6 @@ class MyTeamsPage extends Component {
   }
 
   render() {
-    console.log(this.state.teams);
     return (
       <form>
         <div>MyTeams</div>
