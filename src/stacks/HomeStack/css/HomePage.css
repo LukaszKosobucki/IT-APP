@@ -29,6 +29,7 @@
   --border-color: #eee;
   --bg-color: #f9f9f9;
   --neutral-color: #fff;
+  --bgg-color: Crimson;
 }
 
 
@@ -43,7 +44,7 @@ body {
     font-size: 1em;
     font-weight: 300;
     line-height: 1.5;
-    color: var(--text-color);
+    color: var(--darkgrey);
     background: var(--bg-color);
     position: relative;
 }
@@ -100,7 +101,7 @@ main {
   display: block;
   position: relative;
   width: 100%;
-  background: var(--neutral-color);
+  background: var(--bgg-color);
   border: 1px solid var(--border-color);
 }
 
@@ -141,12 +142,13 @@ main {
 }
 
 .calendar .body .cell {
+  color: var(--bgg-color);
   position: relative;
   height: 5em;
   border-right: 1px solid var(--border-color);
   overflow: hidden;
   cursor: pointer;
-  background: var(--neutral-color);
+  background: var(--darkgrey);
   transition: 0.25s ease-out;
 }
 
