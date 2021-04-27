@@ -11,6 +11,7 @@ export const getEvents = () =>{
                 const events = docs.docs.map((doc) => ({
                     data: doc.data()
                 }));
+                return events
             })
             .catch(console.error)
     }
