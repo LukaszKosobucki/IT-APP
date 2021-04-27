@@ -1,5 +1,6 @@
 export const LOGIN = "/login";
 export const SIGN_UP = "/sign-up";
+export const LOST_PASS = "/lost-password";
 export const EVENT = "/event/:eventId";
 export const EVENT_EDIT = "/event/:eventId/edit";
 export const MY_EVENTS = "/my-events"

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import styles from "./Page.module.css";
-import { Link } from "react-router-dom";
-import { SIGN_UP, LOST_PASS } from "../../constants/paths";
 import firebase from "firebase/app";
-class LoginPage extends Component {
+import { LOGIN } from "../../constants/paths";
+import { Link } from "react-router-dom";
+
+class LostPasswordPage extends Component {
   state = {
     email: "",
-    password: "",
   };
 
   onChangeHandler = (property) => (event) =>
@@ -14,13 +14,13 @@ class LoginPage extends Component {
       [property]: event.target.value,
     });
 
-  signInWithEmailAndPasswordHandler = (event) => {
+  sendPasswordResetEmail = (event) => {
     event.preventDefault();
     firebase
       .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((userCredential) => {
-        console.log("Succesfully logger " + userCredential.user.email);
+      .sendPasswordResetEmail(this.state.email)
+      .then(() => {
+        console.log("Succesfully sent email to " + this.state.email);
       })
       .catch((error) => {
         console.error(error.code + " " + error.message);
@@ -29,7 +29,7 @@ class LoginPage extends Component {
   render() {
     return (
       <form className={styles.centered}>
-        <h3>Log in</h3>
+        <h3>Forgot your password?</h3>
         <div className={styles.formGroup}>
           <label>Email address</label>
           <input
@@ -41,34 +41,21 @@ class LoginPage extends Component {
           />
         </div>
         <div className={styles.formGroup}>
-          <label>Password</label>
-          <input
-            type="password"
-            className={styles.textInput}
-            value={this.state.password}
-            placeholder="Enter password"
-            onChange={this.onChangeHandler("password")}
-          />
-        </div>
-        <div className={styles.formGroup}>
           <button
             type="submit"
             className={styles.buttonInput}
-            onClick={this.signInWithEmailAndPasswordHandler}
+            onClick={this.sendPasswordResetEmail}
           >
             Submit
           </button>
           <p />
         </div>
         <div className={styles.formGroup}>
-          <Link to={LOST_PASS} className={styles.aright}>
-            Forgot password
-          </Link>
-          <Link to={SIGN_UP}>Sing up</Link>
+          <Link to={LOGIN}>Back to Login</Link>
         </div>
       </form>
     );
   }
 }
 
-export default LoginPage;
+export default LostPasswordPage;
