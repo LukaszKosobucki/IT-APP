@@ -7,6 +7,7 @@ import {
   EVENT,
   EVENT_EDIT,
   MY_EVENTS,
+  MY_TEAMS,
   MY_ACCOUNT,
   USER,
   TEAM,
@@ -25,6 +26,7 @@ import SignUpPage from "./stacks/LoginStack/SingUpStack";
 import EventPage from "./stacks/EventStack/EventPage";
 import EventEditPage from "./stacks/EventStack/EventEditPage";
 import MyEventsPage from "./stacks/MyEventsStack/MyEventsPage";
+import MyTeamsPage from "./stacks/MyTeamsStack/MyTeamsPage";
 import UserPage from "./stacks/UserStack/UserPage";
 import TeamPage from "./stacks/TeamStack/TeamPage";
 import AboutPage from "./stacks/AboutStack/AboutPage";
@@ -43,6 +45,7 @@ function App() {
           <Route path={EVENT} component={withLayout(EventPage)} />
           <Route path={EVENT_EDIT} component={withLayout(EventEditPage)} />
           <Route path={MY_EVENTS} component={withLayout(MyEventsPage)} />
+          <Route path={MY_TEAMS} component={withLayout(MyTeamsPage)} />
           <Route path={MY_ACCOUNT} component={withLayout(AccountPage)} />
           <Route path={USER(":userId")} component={withLayout(UserPage)} />
           <Route path={TEAM} component={withLayout(TeamPage)} />
