@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import styles from "./Page.module.css";
 import { Link } from "react-router-dom";
-import { SIGN_UP, LOST_PASS } from "../../constants/paths";
+import { SIGN_UP, LOST_PASS, MY_ACCOUNT } from "../../constants/paths";
 import firebase from "firebase/app";
+import { connect } from "react-redux";
+import { setUserData } from "../../store/actions";
+import { fetchUserData } from "../../store/actions/auth";
+
 class LoginPage extends Component {
   state = {
     email: "",
@@ -20,7 +24,12 @@ class LoginPage extends Component {
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then((userCredential) => {
-        console.log("Succesfully logger " + userCredential.user.email);
+        return fetchUserData(userCredential.user.uid);
+      })
+      .then((doc) => {
+        this.props.setUserData(doc.data());
+        console.log("Succesfully logger " + doc.data().email);
+        this.props.history.push(MY_ACCOUNT);
       })
       .catch((error) => {
         console.error(error.code + " " + error.message);
@@ -72,4 +81,12 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => ({
+  userData: state.auth.userData,
+});
+
+const mapDispatchToProps = {
+  setUserData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

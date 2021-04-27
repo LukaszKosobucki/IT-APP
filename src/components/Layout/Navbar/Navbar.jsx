@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Navbar.module.css";
 import { connect } from "react-redux";
 import { logOut } from "../../../store/actions/auth";
-import { HOME } from "../../../constants/paths";
+import { HOME, LOGIN } from "../../../constants/paths";
 import { withRouter } from "react-router-dom";
 import { Button } from "../../shared/Buttons/Buttons";
 import { NavLink } from "react-router-dom";
@@ -21,7 +21,14 @@ const NavBar = (props) => {
       <NavLink to={HOME} className={styles.link}>
         About
       </NavLink>
-      <Button className={styles.logoutButton} onClick={LogOutOnClick}>
+      <Button
+        className={styles.logoutButton}
+        onClick={
+          props.userData
+            ? () => LogOutOnClick()
+            : () => props.history.push(LOGIN)
+        }
+      >
         {props.userData ? "Sign out" : "Sign in"}
       </Button>
     </div>
