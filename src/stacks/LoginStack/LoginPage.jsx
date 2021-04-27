@@ -26,6 +26,7 @@ class LoginPage extends Component {
         console.error(error.code + " " + error.message);
       });
   };
+
   render() {
     return (
       <form className={styles.centered}>

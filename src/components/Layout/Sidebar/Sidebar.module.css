@@ -1,0 +1,19 @@
+.sidebarWrapper {
+  height: 100%;
+  display: flex;
+}
+
+.sidebar {
+  padding-top: 50px;
+  width: 250px;
+  height: 100%;
+}
+
+.contentWrapper {
+  width: calc(100% - 250px);
+  background-color: var(--mediumgrey);
+}
+
+.fullWidth {
+  width: 100%;
+}
