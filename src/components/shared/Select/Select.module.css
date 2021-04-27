@@ -1,0 +1,10 @@
+.flex {
+  display: flex;
+}
+
+.flex > .label {
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  font-size: 20px;
+}

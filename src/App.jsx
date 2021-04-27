@@ -13,6 +13,7 @@ import {
   ABOUT,
   SEARCH,
   HOME,
+  EDIT_ACCOUNT,
 } from "./constants/paths";
 import { Provider } from "react-redux";
 import store from "./store/config";
@@ -30,6 +31,7 @@ import TeamPage from "./stacks/TeamStack/TeamPage";
 import AboutPage from "./stacks/AboutStack/AboutPage";
 import SearchPage from "./stacks/SearchStack/SearchPage";
 import AccountPage from "./stacks/AccountStack/AccountPage";
+import AccountEdit from "./stacks/AccountStack/AccountEdit";
 
 import "./firebase/config";
 
@@ -44,6 +46,7 @@ function App() {
           <Route path={EVENT_EDIT} component={withLayout(EventEditPage)} />
           <Route path={MY_EVENTS} component={withLayout(MyEventsPage)} />
           <Route path={MY_ACCOUNT} component={withLayout(AccountPage)} />
+          <Route path={EDIT_ACCOUNT} component={withLayout(AccountEdit)} />
           <Route path={USER(":userId")} component={withLayout(UserPage)} />
           <Route path={TEAM} component={withLayout(TeamPage)} />
           <Route path={ABOUT} component={withLayout(AboutPage)} />

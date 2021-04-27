@@ -11,3 +11,9 @@ export const Button = (props) => (
     {props.children}
   </button>
 );
+
+export const DarkButton = (props) => (
+  <Button {...props} className={`${styles.darkButton} ${props.className}`}>
+    {props.children}
+  </Button>
+);

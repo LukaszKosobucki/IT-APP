@@ -5,13 +5,23 @@
   border-radius: 4px;
   font-size: 19px;
   background-color: white;
-  font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.darkButton {
+  background-color: var(--darkgrey);
+  color: white;
 }
 
 .button:hover {
   background-color: #c3cdf0;
   color: rgba(0, 0, 0, 0.562);
+}
+
+.button:hover {
+  background-color: var(--darkgrey);
+  color: rgba(203, 203, 203, 0.56);
 }
 
 .button:disabled {

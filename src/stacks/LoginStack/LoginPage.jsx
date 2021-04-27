@@ -18,22 +18,24 @@ class LoginPage extends Component {
       [property]: event.target.value,
     });
 
-  signInWithEmailAndPasswordHandler = (event) => {
+  signInWithEmailAndPasswordHandler = async (event) => {
     event.preventDefault();
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((userCredential) => {
-        return fetchUserData(userCredential.user.uid);
-      })
-      .then((doc) => {
-        this.props.setUserData(doc.data());
-        console.log("Succesfully logger " + doc.data().email);
-        this.props.history.push(MY_ACCOUNT);
-      })
-      .catch((error) => {
-        console.error(error.code + " " + error.message);
-      });
+    try {
+      const { user } = await firebase
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password);
+      const result = await fetchUserData(user.uid);
+      console.log(result.data());
+      const avatarURL =
+        result.data().avatar &&
+        (await firebase.storage().ref(result.data().avatar).getDownloadURL());
+      const userData = { ...result.data(), id: user.uid, avatarURL };
+      this.props.setUserData(userData);
+      console.log("Succesfully logger " + userData.email);
+      this.props.history.push(MY_ACCOUNT);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   render() {
