@@ -6,17 +6,25 @@ const TableHeader = () => {
   return (
     <thead>
       <tr>
-        <th>name</th>
+      <th>name</th>
+      <th>sportId</th>
+      <th>trainerId</th>
       </tr>
     </thead>
   );
 };
 
 const TableBody = (props) => {
+  console.log(props.data);
   const rows = props.data.map((row, index) => {
+      let myname = row.team.name
+      if (myname === "")
+        myname = "-"
     return (
       <tr key={index}>
-        <td>{row.name}</td>
+        <td>{myname}</td>
+        <td>{row.team.sportId}</td>
+        <td>{row.team.trainerId}</td>
       </tr>
     );
   });
@@ -47,7 +55,7 @@ class MyTeamsPage extends Component {
       .get()
       .then((docs) => {
         const teams = docs.docs.map((doc) => ({
-          team: doc.data(),
+          team: doc.data()
         }));
         this.setState({
           teams: teams,
@@ -57,6 +65,7 @@ class MyTeamsPage extends Component {
   }
 
   render() {
+    console.log(this.state.teams);
     return (
       <form>
         <div>MyTeams</div>
