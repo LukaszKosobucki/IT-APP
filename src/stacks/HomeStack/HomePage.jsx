@@ -21,7 +21,7 @@ class HomePage extends React.Component {
     return (
       <div className="HomePage">
         <main>
-          <Calendar />
+          <Calendar events={this.state.events}/>
         </main>
       </div>
     );
