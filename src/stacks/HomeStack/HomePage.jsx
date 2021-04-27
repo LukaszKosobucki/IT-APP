@@ -3,7 +3,7 @@ import React from "react";
 import Calendar from "../../components/Calendar";
 
 import "./css/HomePage.css"
-import { getEvents} from "./action/events"
+import { getEvents} from "../../store/actions/events"
 
 class HomePage extends React.Component {
     state={
