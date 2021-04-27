@@ -1,6 +1,18 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { LOGIN,LOST_PASS, SIGN_UP, EVENT, EVENT_EDIT, MY_EVENTS, USER, TEAM, ABOUT, SEARCH, HOME } from "./constants/paths";
+import {
+  LOGIN,
+  LOST_PASS,
+  SIGN_UP,
+  EVENT,
+  EVENT_EDIT,
+  MY_EVENTS,
+  USER,
+  TEAM,
+  ABOUT,
+  SEARCH,
+  HOME,
+} from "./constants/paths";
 import { Provider } from "react-redux";
 import store from "./store/config";
 import withAuth from "./hoc/withAuth";
@@ -15,7 +27,6 @@ import UserPage from "./stacks/UserStack/UserPage";
 import TeamPage from "./stacks/TeamStack/TeamPage";
 import AboutPage from "./stacks/AboutStack/AboutPage";
 import SearchPage from "./stacks/SearchStack/SearchPage";
-
 
 import "./firebase/config";
 
@@ -33,7 +44,7 @@ function App() {
           <Route path={TEAM} component={TeamPage} />
           <Route path={ABOUT} component={AboutPage} />
           <Route path={SEARCH} component={SearchPage} />
-          <Route path={HOME} component={SignUpPage} />
+          <Route exact path={HOME} component={HomePage} />
           <Route path={LOST_PASS} component={LostPasswordPage} />
         </Switch>
       </BrowserRouter>
