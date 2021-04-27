@@ -1,0 +1,32 @@
+.layout {
+  height: 100%;
+}
+
+.content {
+  position: relative;
+  margin: 20px;
+  padding: 20px;
+  height: calc(100vh - 90px);
+  border-radius: 4px;
+  overflow-y: scroll;
+  background-color: white;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
+  /*for now no display*/
+  background-color: var(--mediumgrey);
+  width: 10px;
+}
+
+.content::-webkit-scrollbar-thumb {
+  width: 5px;
+  border-radius: 5px;
+  background-color: #e2e2e2;
+}
+
+@media (max-width: 700px) {
+  .content {
+    height: calc(100vh - 40px);
+  }
+}

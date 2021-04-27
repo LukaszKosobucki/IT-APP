@@ -1,0 +1,29 @@
+.centered {
+    justify-content: center;
+    align-content: center;
+    width: 20%;
+    margin: auto;
+}
+
+.formGroup {
+    width: 100%;
+    float: left;
+    justify-content: center;
+    text-align: left;
+}
+
+.textInput {
+    position: relative;
+    width: 100%;
+}
+
+.buttonInput {
+    width: 100%;
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.aright {
+    float:right;
+}

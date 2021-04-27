@@ -1,0 +1,45 @@
+.sidebar {
+  width: 250px;
+  background-color: var(--darkgrey2);
+}
+
+.paddingTop {
+  padding-top: 50px;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  word-wrap: break-word;
+  cursor: default;
+}
+
+.navLink {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  padding: 5px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 22px;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.navLink.centered {
+  justify-content: center;
+}
+
+.active {
+  background-color: #475680;
+}
+
+.navLink:hover {
+  text-decoration: none;
+  color: #eee;
+  background-color: #475680;
+}
