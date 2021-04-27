@@ -7,8 +7,16 @@ import { getEvents} from "./action/events"
 
 class HomePage extends React.Component {
     state={
-        events: getEvents()
+        events: []
     }
+
+    componentDidMount() {
+        const events = getEvents();
+        this.setState({
+          events: events,
+        });
+    }
+
   render() {
     return (
       <div className="HomePage">
