@@ -1,0 +1,14 @@
+.container {
+    position: absolute;
+    width: 656px;
+    height: 299px;
+    left: 152px;
+    top: 121px;
+
+    background: rgba(43, 45, 66, 0.9);
+    border-radius: 13px;
+}
+
+.searchRow {
+    columns: 3 auto;
+}
