@@ -10,32 +10,40 @@ class Search extends Component {
   componentDidMount() {
     const { search } = window.location;
     const query = new URLSearchParams(search).get('s');
-    this.setState({ query })
-    this.getResults()
+    this.setState({
+      query,
+      results: this.getResults()
+    })
   }
 
   // TODO: implement search logic
   getResults() {
     // mock data for testing purposes
-    this.setState({
-      results: [
-        { id: 1, title: 'search result 1', status: 'open' },
-        { id: 2, title: 'search result 2', status: 'closed' },
-        { id: 3, title: 'search result 3', status: 'open' },
-        { id: 4, title: 'search result 4', status: 'open' },
-        { id: 5, title: 'search result 5', status: 'open' },
-      ]
-    })
+    return [
+      { id: 1, title: 'search result 1 but longer title', status: 'open' },
+      { id: 2, title: 'search result 2', status: 'closed' },
+      { id: 3, title: 'search result 3', status: 'open' },
+      { id: 4, title: 'search result 4', status: 'open' },
+      { id: 5, title: 'search result 5', status: 'open' },
+    ]
   }
 
   render() {
     return (
-      <div>
+      <div className={styles.container}>
         <h1>Searching for: {this.state.query}</h1>
-        <div className={styles.container} >
-          <ul >
-            {this.state.results.map((r) => <li className={styles.searchRow}><div>{r.title}</div> <div>{r.status}</div> <div>more info</div></li>)}
-          </ul>
+        <div className={styles.resultsList} >
+          <table>
+            <tbody>
+              {this.state.results.map((r) =>
+                <tr key={r.id} className={styles.searchRow}>
+                  <td className={styles.rowTitle}>{r.title}</td>
+                  <td className={styles.rowStatus}>{r.status}</td>
+                  <td className={styles.rowInfo}>more info</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     )

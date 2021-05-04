@@ -1,14 +1,32 @@
 .container {
-    position: absolute;
-    width: 656px;
-    height: 299px;
-    left: 152px;
-    top: 121px;
+    width: 80%;
+    margin: 0 auto;
+}
 
+.resultsList {
+    display: table;
+   
     background: rgba(43, 45, 66, 0.9);
     border-radius: 13px;
+    padding-right: 40px;
+    width: 100%;
 }
 
 .searchRow {
     columns: 3 auto;
+    color: #EDF2F4;
+    font-size: x-large;
+    list-style-type: none;
+}
+
+.rowTitle {
+    text-align: left;
+}
+
+.rowStatus {
+    text-align: center;
+}
+
+.rowInfo {
+    text-align: right;
 }
