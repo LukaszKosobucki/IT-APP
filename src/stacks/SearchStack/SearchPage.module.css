@@ -1,3 +1,11 @@
+table {
+    width: 100%;
+}
+
+.query {
+    font-weight:normal;
+}
+
 .container {
     width: 80%;
     margin: 0 auto;
@@ -5,10 +13,10 @@
 
 .resultsList {
     display: table;
-   
+    overflow-x:auto;
     background: rgba(43, 45, 66, 0.9);
     border-radius: 13px;
-    padding-right: 40px;
+    padding: 30px 60px;
     width: 100%;
 }
 

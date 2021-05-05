@@ -31,7 +31,7 @@ class Search extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <h1>Searching for: {this.state.query}</h1>
+        <h1>Searching for: <span className={styles.query}>{this.state.query}</span></h1>
         <div className={styles.resultsList} >
           <table>
             <tbody>
