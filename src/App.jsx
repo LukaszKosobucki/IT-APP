@@ -15,6 +15,8 @@ import {
   SEARCH,
   HOME,
   EDIT_ACCOUNT,
+  SUCCESS,
+  FAILURE
 } from "./constants/paths";
 import { Provider } from "react-redux";
 import store from "./store/config";
@@ -34,6 +36,8 @@ import AboutPage from "./stacks/AboutStack/AboutPage";
 import SearchPage from "./stacks/SearchStack/SearchPage";
 import AccountPage from "./stacks/AccountStack/AccountPage";
 import AccountEdit from "./stacks/AccountStack/AccountEdit";
+import SuccessPage from "./components/shared/Informative/SuccessPage";
+import FailurePage from "./components/shared/Informative/FailurePage";
 
 import "./firebase/config";
 
@@ -56,6 +60,8 @@ function App() {
           <Route path={SEARCH} component={withLayout(SearchPage)} />
           <Route exact path={HOME} component={withLayout(HomePage)} />
           <Route path={LOST_PASS} component={LostPasswordPage} />
+          <Route path={SUCCESS} component={withLayout(SuccessPage)} />
+          <Route path={FAILURE} component={withLayout(FailurePage)} />
         </Switch>
       </BrowserRouter>
     </Provider>

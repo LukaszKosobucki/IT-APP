@@ -12,3 +12,6 @@ export const TEAM = "/team/:teamId";
 export const ABOUT = "/about";
 export const SEARCH = "/search";
 export const HOME = "/home";
+export const SUCCESS = "/success";
+export const FAILURE = "/failure";
+
