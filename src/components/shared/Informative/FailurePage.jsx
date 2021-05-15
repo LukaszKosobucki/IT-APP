@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import { useLocation } from "react-router-dom";
+import styles from "./FailurePage.module.css";
 
 class FailurePage extends Component {
     state = { message: ""}
 
     componentDidMount() {
-        this.setState({message: this.props.location.state.message})
+        this.setState({message: this.props.location.state?.message ?? ""})
     }
 
     render() {
         return (
-            <div>
+            <div className={styles.container}>
                 <h1>
                     Failure :(
                 </h1>

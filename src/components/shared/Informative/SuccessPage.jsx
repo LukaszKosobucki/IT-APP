@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import { useHistory } from "react-router-dom";
-
+import styles from "./SuccessPage.module.css";
 class SuccessPage extends Component {
     state = { message: ""}
 
     componentDidMount() {
-        this.setState({message: this.props.location.state.message})
+        this.setState({message: this.props.location.state?.message ?? ""})
     }
 
     render() {
         return (
-            <div>
+            <div className={styles.container}>
                 <h1>
                     Success! :)
                 </h1>
