@@ -1,8 +1,24 @@
+html {
+    background-color: #8D99AE;
+    font-size: 10px;
+}
+
+.alink {
+    font-size: 2rem;
+    color: #2B2D42; 
+    text-decoration: none;
+}
+
+.alink:visited {
+    color: #2B2D42; 
+}
+
 .centered {
     justify-content: center;
-    align-content: center;
+    align-content: left;
     width: 20%;
-    margin: auto;
+    margin-left: 10%;
+    margin-top: 5%;
 }
 
 .formGroup {
@@ -13,17 +29,40 @@
 }
 
 .textInput {
+    background-color: #2B2D42;
     position: relative;
     width: 100%;
+    border-radius: 1rem;
+    border-style: none;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 0.5rem 0 0.5rem 2rem;
+    color: #EDF2F4;
 }
+
+.textInput:focus::placeholder {
+    color: #2B2D42;
+}
+
+.textInput:focus {
+    outline: none ;
+}
+
 
 .buttonInput {
-    width: 100%;
-    display: block;
-    margin: auto;
-    margin-top: 10px;
+    display: inline;
+    margin-right: 0;
+    justify-content: right;
+    font-size: 2rem;
+    border-radius: 1rem;
+    border-style: none;
+    background-color: #8D99AE;
+    cursor: pointer;
+    float: right; 
 }
 
-.aright {
-    float:right;
+.buttonInput:focus {
+    outline: none;
 }
+
