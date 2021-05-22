@@ -1,0 +1,9 @@
+.container {
+    margin: 0 auto;
+    background: rgba(43, 45, 66, 0.9);
+    color: white;
+    border-radius: 13px;
+    padding: 100px;
+    width:fit-content;
+    text-align: center;
+}
