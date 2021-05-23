@@ -11,9 +11,29 @@ class AboutPage extends Component {
     render() {
         return (
             <div className={styles.container}>
-                <p>
-                    this app is about this and that
+                <h1>About</h1>
+                <div>
+                    <h2>Our team</h2>
+                    <h3>Members:</h3>
+                    <ul>
+                        <li>Jakub Majda</li>
+                        <li>Karolina Bożek</li>
+                        <li>Luís Sousa Rêgo</li>
+                        <li>Łukasz Brzeszcz</li>
+                        <li>Łukasz Kosobucki</li>
+                        <li>ŁPaweł Wojtkowiak</li>
+                        <li>Mikołaj Gromadzik</li>
+                    </ul>
+                    <h3></h3>
+
+                </div>
+                <div>
+                    <h2>Our app</h2>
+                    <p>
+                        this app is about this and that
                 </p>
+                </div>
+
                 <Button onClick={this.goSignUp} >Sign up</Button>
             </div>
 
