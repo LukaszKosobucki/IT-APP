@@ -40,13 +40,13 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <form className={styles.centered}>
+      <form className={styles.centered_left}>
         <div className={styles.formGroup}>
           <input
             type="email"
             className={styles.textInput}
             value={this.state.email}
-            placeholder="Enter email"
+            placeholder="E-mail"
             onChange={this.onChangeHandler("email")}
           />
         </div>
@@ -58,7 +58,7 @@ class LoginPage extends Component {
             type="password"
             className={styles.textInput}
             value={this.state.password}
-            placeholder="Enter password"
+            placeholder="Password"
             onChange={this.onChangeHandler("password")}
           />
         </div>

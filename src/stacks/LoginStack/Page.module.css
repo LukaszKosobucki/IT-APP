@@ -1,24 +1,47 @@
 html {
-    background-color: #8D99AE;
+    margin: 2rem;
+    background-color: #8D99AE ;
     font-size: 10px;
+    height: calc(100% - 4rem);
+    width: calc(100% - 4rem);
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff ;
+    border-radius: 2rem;
 }
 
 .alink {
     font-size: 2rem;
     color: #2B2D42; 
     text-decoration: none;
+    align-content: center;
+    text-align: center;
 }
 
 .alink:visited {
     color: #2B2D42; 
 }
 
-.centered {
-    justify-content: center;
-    align-content: left;
-    width: 20%;
+.centered_left {
+    width: 50rem;
     margin-left: 10%;
-    margin-top: 5%;
+    padding-top: 5%;
+}
+
+.centered_right {
+    float: right;
+    width: 50rem;
+    margin-right: 10%;
+    padding-top: 5%;
+}
+
+.centered {
+    width: 50rem;
+    margin: auto;
+    padding-top: 5%;
 }
 
 .formGroup {
@@ -57,7 +80,7 @@ html {
     font-size: 2rem;
     border-radius: 1rem;
     border-style: none;
-    background-color: #8D99AE;
+    background-color: #ffffff;
     cursor: pointer;
     float: right; 
 }
