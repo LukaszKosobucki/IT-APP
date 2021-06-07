@@ -1,8 +1,47 @@
-.centered {
-    justify-content: center;
+html {
+    margin: 2rem;
+    background-color: #8D99AE ;
+    font-size: 10px;
+    height: calc(100% - 4rem);
+    width: calc(100% - 4rem);
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #ffffff ;
+    border-radius: 2rem;
+}
+
+.alink {
+    font-size: 2rem;
+    color: #2B2D42; 
+    text-decoration: none;
     align-content: center;
-    width: 20%;
+    text-align: center;
+}
+
+.alink:visited {
+    color: #2B2D42; 
+}
+
+.centered_left {
+    width: 50rem;
+    margin-left: 10%;
+    padding-top: 5%;
+}
+
+.centered_right {
+    float: right;
+    width: 50rem;
+    margin-right: 10%;
+    padding-top: 5%;
+}
+
+.centered {
+    width: 50rem;
     margin: auto;
+    padding-top: 5%;
 }
 
 .formGroup {
@@ -13,17 +52,40 @@
 }
 
 .textInput {
+    background-color: #2B2D42;
     position: relative;
     width: 100%;
+    border-radius: 1rem;
+    border-style: none;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 0.5rem 0 0.5rem 2rem;
+    color: #EDF2F4;
 }
+
+.textInput:focus::placeholder {
+    color: #2B2D42;
+}
+
+.textInput:focus {
+    outline: none ;
+}
+
 
 .buttonInput {
-    width: 100%;
-    display: block;
-    margin: auto;
-    margin-top: 10px;
+    display: inline;
+    margin-right: 0;
+    justify-content: right;
+    font-size: 2rem;
+    border-radius: 1rem;
+    border-style: none;
+    background-color: #ffffff;
+    cursor: pointer;
+    float: right; 
 }
 
-.aright {
-    float:right;
+.buttonInput:focus {
+    outline: none;
 }
+
