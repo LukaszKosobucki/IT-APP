@@ -1,24 +1,39 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import AccountLayout from "../../components/AccountLayout/AccountLayout";
-import { HOME } from "../../constants/paths";
-import { USER_TYPES } from "../../constants/userTypes";
+import { TEAM, HOME, USER } from "../../constants/paths";
 import { getSports } from "../../store/actions/sports";
+import { getEvent, getParticipantsForEvent } from "../../store/actions/events";
+import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
+import EventLayout from "../../components/EventLayout/EventLayout";
+import TableItem from "../../components/shared/Table/TableItem/TableItem";
+import Moment from "moment";
+import { DropdownButton } from "../../components/shared/Buttons/Buttons";
+import { Link } from "react-router-dom";
 
 class UserAdmin extends Component {
   state = {
-    name: "",
-    surname: "",
-    mail: "",
-    avatar: "",
-    sports: [],
+    event: {},
+    participants: [],
   };
 
   componentDidMount() {
     !this.props.sports && this.props.getSports();
-    this.setState({
-      ...this.props.userData,
-    });
+    getEvent(this.props.match.params.eventId)
+      .then(([imageURL, rest]) => {
+        this.setState({
+          user: this.props.userData,
+          event: { ...rest, imageURL },
+        });
+        return getParticipantsForEvent(rest.participantsIds, "teams");
+      })
+      .then((docs) => {
+        const participants = docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        console.log(participants);
+        this.setState({ participants });
+      });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -30,16 +45,50 @@ class UserAdmin extends Component {
     this.props.history.push(HOME);
   };
 
+  tableHeaders = () => {
+    if (this.state.event.type === "team") {
+      return ["Team name", ""];
+    } else {
+      return ["Name", "Sport", ""];
+    }
+  };
+
+  tableTemplate = (row) => {
+    if (this.state.event.type === "team") {
+      return (
+        <TableItem key={row.id}>
+          {row.name || "Brak"}
+          <DropdownButton>
+            <Link to={TEAM(row.id)}>View</Link>
+          </DropdownButton>
+        </TableItem>
+      );
+    } else {
+      return (
+        <TableItem key={row.id}>
+          {`${row.name} ${row.surname}`}
+          <DropdownButton>
+            <Link to={USER(row.id)}>View</Link>
+          </DropdownButton>
+        </TableItem>
+      );
+    }
+  };
+
   render() {
+    console.log(this.state);
     this.state.sports?.find((sport) => {
-      console.log("here", sport.value === this.props.userData.sportId);
       return sport.value === this.props.userData.sportId;
     });
     return (
       <main>
-        <AccountLayout
-          userData={this.props.userData}
+        <TitleWithButtons title={this.state.event?.name || ""} />
+        <EventLayout
+          event={this.state.event}
           sports={this.props.sports}
+          participants={this.state.participants}
+          template={this.tableTemplate}
+          headers={this.tableHeaders()}
         />
       </main>
     );

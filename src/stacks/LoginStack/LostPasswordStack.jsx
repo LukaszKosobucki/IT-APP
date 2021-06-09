@@ -29,18 +29,18 @@ class LostPasswordPage extends Component {
   render() {
     return (
       <form className={styles.centered}>
-        <h3>Forgot your password?</h3>
         <div className={styles.formGroup}>
-          <label>Email address</label>
+          <label className={styles.alink}>Enter e-mail adress on which you want to restore password</label>
           <input
             type="email"
             className={styles.textInput}
             value={this.state.email}
-            placeholder="Enter email"
+            placeholder="E-mail"
             onChange={this.onChangeHandler("email")}
           />
         </div>
         <div className={styles.formGroup}>
+          <Link to={LOGIN} className={styles.alink}>Back to Login</Link>
           <button
             type="submit"
             className={styles.buttonInput}
@@ -49,9 +49,6 @@ class LostPasswordPage extends Component {
             Submit
           </button>
           <p />
-        </div>
-        <div className={styles.formGroup}>
-          <Link to={LOGIN}>Back to Login</Link>
         </div>
       </form>
     );

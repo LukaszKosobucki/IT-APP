@@ -3,3 +3,8 @@ export const USER_TYPES = {
   trainer: "trainer",
   sportsman: "sportsman",
 };
+
+export const EVENT_TYPE_FOR_SELECT = [
+  { value: "team", label: "Team" },
+  { value: "solo", label: "Solo" },
+];

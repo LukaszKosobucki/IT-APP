@@ -1,29 +1,81 @@
+.loginContainer {
+  background-color: #8d99ae;
+  font-size: 10px;
+  height: 100vh;
+  width: 100vw;
+}
+
+.alink {
+  font-size: 2rem;
+  color: #2b2d42;
+  text-decoration: none;
+  align-content: center;
+  text-align: center;
+}
+
+.alink:visited {
+  color: #2b2d42;
+}
+
+.centered_left {
+  width: 50rem;
+  margin-left: 10%;
+  padding-top: 5%;
+}
+
+.centered_right {
+  float: right;
+  width: 50rem;
+  margin-right: 10%;
+  padding-top: 5%;
+}
+
 .centered {
-    justify-content: center;
-    align-content: center;
-    width: 20%;
-    margin: auto;
+  width: 50rem;
+  margin: auto;
+  padding-top: 5%;
 }
 
 .formGroup {
-    width: 100%;
-    float: left;
-    justify-content: center;
-    text-align: left;
+  width: 100%;
+  float: left;
+  justify-content: center;
+  text-align: left;
 }
 
 .textInput {
-    position: relative;
-    width: 100%;
+  background-color: #2b2d42;
+  position: relative;
+  width: 100%;
+  border-radius: 1rem;
+  border-style: none;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem 0 0.5rem 2rem;
+  color: #edf2f4;
+}
+
+.textInput:focus::placeholder {
+  color: #2b2d42;
+}
+
+.textInput:focus {
+  outline: none;
 }
 
 .buttonInput {
-    width: 100%;
-    display: block;
-    margin: auto;
-    margin-top: 10px;
+  display: inline;
+  margin-right: 0;
+  justify-content: right;
+  font-size: 2rem;
+  border-radius: 1rem;
+  border-style: none;
+  background-color: #ffffff;
+  cursor: pointer;
+  float: right;
 }
 
-.aright {
-    float:right;
+.buttonInput:focus {
+  outline: none;
 }

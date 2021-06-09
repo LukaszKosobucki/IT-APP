@@ -34,52 +34,95 @@ class SignUpPage extends Component {
   };
   render() {
     return (
-      <form className={styles.centered}>
-        <h3>Sing up</h3>
-        <div className={styles.formGroup}>
-          <label>Email address</label>
-          <input
-            type="email"
-            className={styles.textInput}
-            value={this.state.email}
-            placeholder="Enter email"
-            onChange={this.onChangeHandler("email")}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Password</label>
-          <input
-            type="password"
-            className={styles.textInput}
-            value={this.state.password}
-            placeholder="Enter password"
-            onChange={this.onChangeHandler("password")}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Repeat password</label>
-          <input
-            type="password"
-            className={styles.textInput}
-            value={this.state.passwordRepeat}
-            placeholder="Enter password"
-            onChange={this.onChangeHandler("passwordRepeat")}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <button
-            type="submit"
-            className={styles.buttonInput}
-            onClick={this.createUserWithEmailAndPasswordHandler}
-          >
-            Submit
-          </button>
-          <p />
-        </div>
-        <div className={styles.formGroup}>
-          <Link to={LOGIN}>Already have an account? Log in</Link>
-        </div>
-      </form>
+      <main className={styles.loginContainer}>
+        <form className={styles.centered_right}>
+          <div className={styles.formGroup}>
+            <input
+              type="email"
+              className={styles.textInput}
+              value={this.state.email}
+              placeholder="E-mail"
+              onChange={this.onChangeHandler("email")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              type="password"
+              className={styles.textInput}
+              value={this.state.password}
+              placeholder="Password"
+              onChange={this.onChangeHandler("password")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              type="password"
+              className={styles.textInput}
+              value={this.state.passwordRepeat}
+              placeholder="Repeat password"
+              onChange={this.onChangeHandler("passwordRepeat")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              type="number"
+              className={styles.textInput}
+              value={this.state.age}
+              min="18"
+              max="99"
+              placeholder="Age"
+              onChange={this.onChangeHandler("age")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              pattern="[a-zA-Z]*"
+              type="text"
+              className={styles.textInput}
+              value={this.state.name}
+              placeholder="Name"
+              onChange={this.onChangeHandler("name")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <input
+              pattern="[a-zA-Z]*"
+              type="text"
+              className={styles.textInput}
+              value={this.state.surname}
+              placeholder="Surname"
+              onChange={this.onChangeHandler("surname")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <select
+              name="affiliation"
+              className={styles.textInput}
+              value={this.state.affiliation}
+              onChange={this.onChangeHandler("affiliation")}
+            >
+              <option value="affiliation">--Choose One--</option>
+              <option value="solo">Solo</option>
+              <option value="team_owner">Team Owner</option>
+              <option value="event_organizer">Event Organizer</option>
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <Link to={LOGIN} className={styles.alink}>
+              Already have an account? Sign In
+            </Link>
+            <button
+              type="submit"
+              className={styles.buttonInput}
+              onClick={this.createUserWithEmailAndPasswordHandler}
+            >
+              Sign Up
+            </button>
+            <p />
+          </div>
+          <div className={styles.formGroup}></div>
+        </form>
+      </main>
     );
   }
 }

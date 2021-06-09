@@ -14,7 +14,7 @@ const HomePage = ({ userData, sports }) => (
     </Link>
     <div className={styles.container}>
       <div className={styles.imageContainer}>
-        <img src={userData.avatarURL} />
+        {userData.avatarURL && <img src={userData.avatarURL} />}
       </div>
       <div className={styles.infoContainer}>
         <Input label={"Email"} disabled value={userData.email} />

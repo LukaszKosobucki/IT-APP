@@ -6,7 +6,7 @@ import Drawer from "./Drawer/Drawer";
 const Sidebar = (props) => {
   return (
     <div className={styles.sidebarWrapper}>
-      {props.isAuthorized && <Drawer />}
+      {props.isAuthorized && <Drawer role={props.isAuthorized.type} />}
       <div
         className={classnames(styles.contentWrapper, {
           [styles.fullWidth]: !props.isAuthorized,

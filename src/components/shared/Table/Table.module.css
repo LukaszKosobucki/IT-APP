@@ -1,0 +1,23 @@
+.table {
+  width: 100%;
+  border-radius: 5px;
+  border: 2px solid white;
+  background-color: #ffe2e2;
+}
+
+.tableRow {
+  height: 62px;
+  border-right: 56px solid transparent;
+  border-left: 56px solid transparent;
+}
+
+.tableRow:nth-child(odd) {
+  background-color: rgb(255, 255, 255);
+}
+
+.tableHeader {
+  height: 62px;
+  background-color: rgb(255, 100, 100);
+  font-weight: 700;
+  font-size: 20px;
+}
