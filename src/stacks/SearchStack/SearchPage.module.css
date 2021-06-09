@@ -1,0 +1,40 @@
+table {
+    width: 100%;
+}
+
+.query {
+    font-weight:normal;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.resultsList {
+    display: table;
+    overflow-x:auto;
+    background: rgba(43, 45, 66, 0.9);
+    border-radius: 13px;
+    padding: 30px 60px;
+    width: 100%;
+}
+
+.searchRow {
+    columns: 3 auto;
+    color: #EDF2F4;
+    font-size: x-large;
+    list-style-type: none;
+}
+
+.rowTitle {
+    text-align: left;
+}
+
+.rowStatus {
+    text-align: center;
+}
+
+.rowInfo {
+    text-align: right;
+}
