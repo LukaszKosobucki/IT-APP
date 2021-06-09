@@ -15,6 +15,8 @@ import {
   SEARCH,
   HOME,
   EDIT_ACCOUNT,
+  SUCCESS,
+  FAILURE
   EVENT_ADD,
   TEAM_ADD,
   TEAM_EDIT,
@@ -37,6 +39,8 @@ import AboutPage from "./stacks/AboutStack/AboutPage";
 import SearchPage from "./stacks/SearchStack/SearchPage";
 import AccountPage from "./stacks/AccountStack/AccountPage";
 import AccountEdit from "./stacks/AccountStack/AccountEdit";
+import SuccessPage from "./components/shared/Informative/SuccessPage";
+import FailurePage from "./components/shared/Informative/FailurePage";
 
 import "./firebase/config";
 import AuthService from "./service/authService";
@@ -45,6 +49,7 @@ import TeamEditPage from "./stacks/TeamStack/TeamEditPage";
 function App() {
   return (
     <Provider store={store}>
+
       <AuthService>
         <BrowserRouter>
           <Switch>
@@ -71,6 +76,8 @@ function App() {
             <Route path={SEARCH} component={withLayout(SearchPage)} />
             <Route exact path={HOME} component={withLayout(HomePage)} />
             <Route path={LOST_PASS} component={LostPasswordPage} />
+            <Route path={SUCCESS} component={withLayout(SuccessPage)} />
+            <Route path={FAILURE} component={withLayout(FailurePage)} />
             <Redirect to={HOME} />
           </Switch>
         </BrowserRouter>

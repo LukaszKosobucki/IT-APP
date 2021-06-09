@@ -15,3 +15,5 @@ export const TEAM_EDIT = (teamId) => `/edit/team/${teamId}`;
 export const ABOUT = "/about";
 export const SEARCH = "/search";
 export const HOME = "/";
+export const SUCCESS = "/success";
+export const FAILURE = "/failure";
