@@ -7,6 +7,7 @@ const drawerElement = ({ path, text, full }) => (
   <NavLink
     to={path}
     activeClassName={styles.active}
+    exact
     className={classnames(styles.navLink, { [styles.centered]: !full })}
   >
     {text}

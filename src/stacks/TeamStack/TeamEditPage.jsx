@@ -1,57 +1,66 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { TEAM, HOME, USER, MY_ACCOUNT, MY_EVENTS } from "../../constants/paths";
+import {
+  TEAM,
+  HOME,
+  USER,
+  MY_ACCOUNT,
+  MY_EVENTS,
+  MY_TEAMS,
+} from "../../constants/paths";
 import { getSports } from "../../store/actions/sports";
 import { getEvent, getParticipantsForEvent } from "../../store/actions/events";
 import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
-import EventForm from "../../components/EventForm/EventForm";
+import TeamForm from "../../components/TeamForm/TeamForm";
 import TableItem from "../../components/shared/Table/TableItem/TableItem";
 import Moment from "moment";
 import { DropdownButton } from "../../components/shared/Buttons/Buttons";
 import { Link } from "react-router-dom";
 import { addImageToStorage, removeImageFromStorage } from "../../utils/files";
+import {
+  getTeam,
+  getTeamMembers,
+  getTeamMembersImages,
+} from "../../store/actions/teams";
 
-class EventFormPage extends Component {
+class TeamFormPage extends Component {
   state = {
-    event: {},
-    participants: [],
+    team: {},
+    teamMembers: [],
     description: "",
     name: "",
     image: { new: "", old: "" },
     sportId: "",
     level: "",
-    scale: "",
-    type: "",
-    startDate: null,
-    endDate: null,
   };
 
   componentDidMount() {
     !this.props.sports && this.props.getSports();
-    this.props.match.params.eventId &&
-      getEvent(this.props.match.params.eventId)
+    this.props.match.params.teamId &&
+      getTeam(this.props.match.params.teamId)
         .then(([imageURL, rest]) => {
           this.setState({
             user: this.props.userData,
             ...rest,
             image: { old: imageURL, new: "" },
-            startDate: rest.startDate.toDate(),
-            endDate: rest.endDate.toDate(),
-            event: {
+            team: {
               ...rest,
-              startDate: rest.startDate.toDate(),
-              endDate: rest.endDate.toDate(),
             },
           });
-          return getParticipantsForEvent(rest.participantsIds, "teams");
+          return getTeamMembers(rest.sportsmansIds);
         })
         .then((docs) => {
-          const participants = docs.map((doc) => ({
+          const teamMembers = docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
           }));
-          this.setState({ participants });
-        });
+          return getTeamMembersImages(teamMembers);
+        })
+        .then((members) =>
+          this.setState({
+            teamMembers: members,
+          })
+        );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -101,7 +110,7 @@ class EventFormPage extends Component {
     // this.props.history.push(ADMIN);
   };
 
-  onCancel = () => this.props.history.push(MY_EVENTS);
+  onCancel = () => this.props.history.push(MY_TEAMS);
 
   render() {
     console.log(this.state);
@@ -111,10 +120,10 @@ class EventFormPage extends Component {
     return (
       <main>
         <TitleWithButtons
-          title={this.props.match.params.eventId ? "Edit event" : "Add event"}
+          title={this.props.match.params.teamId ? "Edit team" : "Add team"}
         />
-        <EventForm
-          event={this.state.event}
+        <TeamForm
+          team={this.state.team}
           sports={this.props.sports}
           description={this.state.description}
           image={
@@ -126,15 +135,10 @@ class EventFormPage extends Component {
           onCancel={this.onCancel}
           onChange={this.onInputChange}
           onSelectChange={this.onSelectChange}
-          onDateSelectChange={this.onDateSelectChange}
           sportId={this.state.sportId}
           level={this.state.level}
           onFileChange={this.onFileInputChange}
           name={this.state.name}
-          scale={this.state.scale}
-          type={this.state.type}
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
         />
       </main>
     );
@@ -149,4 +153,4 @@ const mapDispatchToProps = {
   getSports,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventFormPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamFormPage);

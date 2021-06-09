@@ -40,41 +40,46 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <form className={styles.centered_left}>
-        <div className={styles.formGroup}>
-          <input
-            type="email"
-            className={styles.textInput}
-            value={this.state.email}
-            placeholder="E-mail"
-            onChange={this.onChangeHandler("email")}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label><Link to={LOST_PASS} className={styles.alink}>
-            Forgot password
-          </Link></label>
-          <input
-            type="password"
-            className={styles.textInput}
-            value={this.state.password}
-            placeholder="Password"
-            onChange={this.onChangeHandler("password")}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <Link to={SIGN_UP} className={styles.alink} >Sing up</Link>
-          <button
-            type="submit"
-            className={styles.buttonInput}
-            onClick={this.signInWithEmailAndPasswordHandler}
-          >
-            Sign In
-          </button>
-          <p />
-        </div>
-
-      </form>
+      <main className={styles.loginContainer}>
+        <form className={styles.centered_left}>
+          <div className={styles.formGroup}>
+            <input
+              type="email"
+              className={styles.textInput}
+              value={this.state.email}
+              placeholder="E-mail"
+              onChange={this.onChangeHandler("email")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label>
+              <Link to={LOST_PASS} className={styles.alink}>
+                Forgot password
+              </Link>
+            </label>
+            <input
+              type="password"
+              className={styles.textInput}
+              value={this.state.password}
+              placeholder="Password"
+              onChange={this.onChangeHandler("password")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <Link to={SIGN_UP} className={styles.alink}>
+              Sing up
+            </Link>
+            <button
+              type="submit"
+              className={styles.buttonInput}
+              onClick={this.signInWithEmailAndPasswordHandler}
+            >
+              Sign In
+            </button>
+            <p />
+          </div>
+        </form>
+      </main>
     );
   }
 }

@@ -22,3 +22,12 @@ code {
   box-sizing: border-box;
   font-family: "Nunito", sans-serif;
 }
+
+.react-datepicker__input-time-container,
+.react-datepicker-time__input-container,
+.react-datepicker-time__input-container,
+.react-datepicker-wrapper,
+.react-datepicker-time__input {
+  margin: 0 !important;
+  display: block !important;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import {
   LOGIN,
   LOST_PASS,
@@ -15,6 +15,9 @@ import {
   SEARCH,
   HOME,
   EDIT_ACCOUNT,
+  EVENT_ADD,
+  TEAM_ADD,
+  TEAM_EDIT,
 } from "./constants/paths";
 import { Provider } from "react-redux";
 import store from "./store/config";
@@ -36,28 +39,42 @@ import AccountPage from "./stacks/AccountStack/AccountPage";
 import AccountEdit from "./stacks/AccountStack/AccountEdit";
 
 import "./firebase/config";
+import AuthService from "./service/authService";
+import TeamEditPage from "./stacks/TeamStack/TeamEditPage";
 
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          <Route path={LOGIN} component={LoginPage} />
-          <Route path={SIGN_UP} component={SignUpPage} />
-          <Route path={EVENT} component={withLayout(EventPage)} />
-          <Route path={EVENT_EDIT} component={withLayout(EventEditPage)} />
-          <Route path={MY_EVENTS} component={withLayout(MyEventsPage)} />
-          <Route path={MY_TEAMS} component={withLayout(MyTeamsPage)} />
-          <Route path={MY_ACCOUNT} component={withLayout(AccountPage)} />
-          <Route path={EDIT_ACCOUNT} component={withLayout(AccountEdit)} />
-          <Route path={USER(":userId")} component={withLayout(UserPage)} />
-          <Route path={TEAM} component={withLayout(TeamPage)} />
-          <Route path={ABOUT} component={withLayout(AboutPage)} />
-          <Route path={SEARCH} component={withLayout(SearchPage)} />
-          <Route exact path={HOME} component={withLayout(HomePage)} />
-          <Route path={LOST_PASS} component={LostPasswordPage} />
-        </Switch>
-      </BrowserRouter>
+      <AuthService>
+        <BrowserRouter>
+          <Switch>
+            <Route path={LOGIN} component={LoginPage} />
+            <Route path={SIGN_UP} component={SignUpPage} />
+            <Route path={EVENT(":eventId")} component={withLayout(EventPage)} />
+            <Route path={EVENT_ADD} component={withLayout(EventEditPage)} />
+            <Route
+              path={EVENT_EDIT(":eventId")}
+              component={withLayout(EventEditPage)}
+            />
+            <Route path={MY_EVENTS} component={withLayout(MyEventsPage)} />
+            <Route path={MY_TEAMS} component={withLayout(MyTeamsPage)} />
+            <Route path={MY_ACCOUNT} component={withLayout(AccountPage)} />
+            <Route path={EDIT_ACCOUNT} component={withLayout(AccountEdit)} />
+            <Route path={USER(":userId")} component={withLayout(UserPage)} />
+            <Route path={TEAM_ADD} component={withLayout(TeamEditPage)} />
+            <Route
+              path={TEAM_EDIT(":teamId")}
+              component={withLayout(TeamEditPage)}
+            />
+            <Route path={TEAM(":teamId")} component={withLayout(TeamPage)} />
+            <Route path={ABOUT} component={withLayout(AboutPage)} />
+            <Route path={SEARCH} component={withLayout(SearchPage)} />
+            <Route exact path={HOME} component={withLayout(HomePage)} />
+            <Route path={LOST_PASS} component={LostPasswordPage} />
+            <Redirect to={HOME} />
+          </Switch>
+        </BrowserRouter>
+      </AuthService>
     </Provider>
   );
 }

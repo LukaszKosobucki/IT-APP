@@ -39,7 +39,6 @@ class UserAdmin extends Component {
   };
 
   onSelectChange = (property) => (data) => {
-    console.log(property, data);
     this.setState({ [property]: data.value });
   };
 

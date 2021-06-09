@@ -37,3 +37,11 @@ export const Textarea = (props) => (
     />
   </div>
 );
+
+export const TimeInput = ({ date, value, onChange }) => (
+  <input
+    value={value}
+    onChange={(event) => onChange(event.target.value)}
+    className={classnames(styles.input, styles.timeInput)}
+  />
+);

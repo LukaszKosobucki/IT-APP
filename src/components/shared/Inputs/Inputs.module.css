@@ -16,4 +16,10 @@
 
 .label {
   margin: 0;
+  text-decoration: none;
+}
+
+.timeInput {
+  margin: 0;
+  width: calc(100% - 30px);
 }

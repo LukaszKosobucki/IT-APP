@@ -1,47 +1,18 @@
 import { Component } from "react";
-import { getMyTeams } from "../../store/actions/myTeams";
+import { getMyTeams } from "../../store/actions/teams";
+import { connect } from "react-redux";
+import { Table } from "../../components/shared/Table/Table";
 import firebase from "firebase";
-
-const TableHeader = () => {
-  return (
-    <thead>
-      <tr>
-      <th>name</th>
-      <th>sportId</th>
-      <th>trainerId</th>
-      </tr>
-    </thead>
-  );
-};
-
-const TableBody = (props) => {
-  console.log(props.data);
-  const rows = props.data.map((row, index) => {
-      let myname = row.team.name
-      if (myname === "")
-        myname = "-"
-    return (
-      <tr key={index}>
-        <td>{myname}</td>
-        <td>{row.team.sportId}</td>
-        <td>{row.team.trainerId}</td>
-      </tr>
-    );
-  });
-
-  return <tbody>{rows}</tbody>;
-};
-
-const Table = (props) => {
-  const { data } = props;
-
-  return (
-    <table>
-      <TableHeader />
-      <TableBody data={data} />
-    </table>
-  );
-};
+import TableItem from "../../components/shared/Table/TableItem/TableItem";
+import {
+  DarkButton,
+  DropdownButton,
+} from "../../components/shared/Buttons/Buttons";
+import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
+import { EVENT_ADD, TEAM, TEAM_ADD, TEAM_EDIT } from "../../constants/paths";
+import { Link } from "react-router-dom";
+import { getSports } from "../../store/actions/sports";
+import { USER_TYPES } from "../../constants/userTypes";
 
 class MyTeamsPage extends Component {
   state = {
@@ -49,13 +20,20 @@ class MyTeamsPage extends Component {
   };
 
   componentDidMount() {
+    !this.props.sports && this.props.getSports();
     firebase
       .firestore()
       .collection("teams")
+      .where(
+        firebase.firestore.FieldPath.documentId(),
+        "in",
+        this.props.userData.teamsIds
+      )
       .get()
       .then((docs) => {
         const teams = docs.docs.map((doc) => ({
-          team: doc.data()
+          team: doc.data(),
+          id: doc.id,
         }));
         this.setState({
           teams: teams,
@@ -64,15 +42,52 @@ class MyTeamsPage extends Component {
       .catch(console.error);
   }
 
+  tableTemplate = (row) => (
+    <TableItem key={row.id}>
+      {row.team.name || "Brak"}
+      {
+        this.props.sports?.find((sport) => sport.value === row.team.sportId)
+          ?.label
+      }
+      <DropdownButton>
+        <Link to={TEAM(row.id)}>View</Link>
+        <Link to={TEAM_EDIT(row.id)}>Edit</Link>
+      </DropdownButton>
+    </TableItem>
+  );
+
   render() {
-    console.log(this.state.teams);
     return (
-      <form>
-        <div>MyTeams</div>
-        {this.state.teams && <Table data={this.state.teams} />}
-      </form>
+      <main>
+        <TitleWithButtons
+          title={"Teams"}
+          buttons={
+            this.props.userData.type === USER_TYPES.trainer && (
+              <Link to={TEAM_ADD}>
+                <DarkButton>Add new</DarkButton>
+              </Link>
+            )
+          }
+        />
+        {this.state.teams && (
+          <Table
+            headers={["Name", "Sport", ""]}
+            data={this.state.teams}
+            template={this.tableTemplate}
+          />
+        )}
+      </main>
     );
   }
 }
 
-export default MyTeamsPage;
+const mapStateToProps = (state) => ({
+  userData: state.auth.userData,
+  sports: state.sport.sports,
+});
+
+const mapDispatchToProps = {
+  getSports,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyTeamsPage);

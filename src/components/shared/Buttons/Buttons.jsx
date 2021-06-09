@@ -17,3 +17,17 @@ export const DarkButton = (props) => (
     {props.children}
   </Button>
 );
+
+export const DropdownButton = (props) => (
+  <div className={styles.downdrop}>
+    <Button
+      {...props}
+      className={`${styles.downdropButton} ${props.className}`}
+    >
+      <span className={styles.dot} />
+      <span className={styles.dot} />
+      <span className={styles.dot} />
+    </Button>
+    <div className={styles.dropdownContent}>{props.children}</div>
+  </div>
+);
