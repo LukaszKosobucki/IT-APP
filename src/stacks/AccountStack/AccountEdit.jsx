@@ -11,6 +11,7 @@ class UserAdmin extends Component {
     surname: "",
     mail: "",
     avatar: { new: "", old: "" },
+    description: "",
   };
 
   componentDidMount() {
@@ -62,6 +63,14 @@ class UserAdmin extends Component {
     // this.props.history.push(ADMIN);
   };
 
+  hasChanges = () => {
+    // return false;
+    return this.state.avatar.new
+    || this.props.userData.name !== this.state.name
+    || this.props.userData.description !== this.state.description
+
+  }
+
   onCancel = () => this.props.history.push(MY_ACCOUNT);
 
   render() {
@@ -78,6 +87,7 @@ class UserAdmin extends Component {
               : URL.createObjectURL(this.state.avatar.new)
           }
           onChange={this.onInputChange}
+          hasChanges={this.hasChanges()}
           onSelectChange={this.onSelectChange}
           onFileChange={this.onFileInputChange}
           onAccept={this.onAccept}

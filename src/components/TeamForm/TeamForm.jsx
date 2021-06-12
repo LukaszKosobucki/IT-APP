@@ -26,7 +26,7 @@ const teamForm = ({
         <Button className={styles.button} onClick={onCancel}>
           Cancel
         </Button>
-        <DarkButton disabled={!hasChanges()} className={styles.button} onClick={onAccept}>
+        <DarkButton disabled={!hasChanges} className={styles.button} onClick={onAccept}>
           Save changes
         </DarkButton>
       </div>
