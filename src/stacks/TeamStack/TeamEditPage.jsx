@@ -90,6 +90,10 @@ class TeamFormPage extends Component {
     this.setState({ [property]: data });
   };
 
+  hasChanges = () => () => {
+    return false;
+  }
+
   onAccept = () => {
     if (this.state.avatar.new && this.state.avatar.old) {
       removeImageFromStorage(this.props.userData.avatar);
@@ -134,6 +138,7 @@ class TeamFormPage extends Component {
           onAccept={this.onAccept}
           onCancel={this.onCancel}
           onChange={this.onInputChange}
+          hasChanges={this.hasChanges}
           onSelectChange={this.onSelectChange}
           sportId={this.state.sportId}
           level={this.state.level}
