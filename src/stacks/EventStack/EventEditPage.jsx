@@ -101,6 +101,20 @@ class EventFormPage extends Component {
     // this.props.history.push(ADMIN);
   };
 
+  hasChanges = () => {
+    console.log(this.state.event.startDate)
+    console.log(this.state.startDate)
+    return this.state.image.new
+    || this.state.event.name !== this.state.name
+    || this.state.event.scale !== this.state.scale
+    || this.state.event.type !== this.state.type
+    || this.state.event.sportId !== this.state.sportId
+    || this.state.event.level !== this.state.level
+    || this.state.event.description !== this.state.description
+    || this.state.event.startDate !== this.state.startDate
+    || this.state.event.endDate !== this.state.endDate;
+  }
+
   onCancel = () => this.props.history.push(MY_EVENTS);
 
   render() {
@@ -125,6 +139,7 @@ class EventFormPage extends Component {
           onAccept={this.onAccept}
           onCancel={this.onCancel}
           onChange={this.onInputChange}
+          hasChanges={this.hasChanges()}
           onSelectChange={this.onSelectChange}
           onDateSelectChange={this.onDateSelectChange}
           sportId={this.state.sportId}

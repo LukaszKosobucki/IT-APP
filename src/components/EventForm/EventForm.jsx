@@ -16,6 +16,7 @@ const eventForm = ({
   onChange,
   onSelectChange,
   onFileChange,
+  hasChanges,
   image,
   onAccept,
   onCancel,
@@ -32,7 +33,7 @@ const eventForm = ({
         <Button className={styles.button} onClick={onCancel}>
           Cancel
         </Button>
-        <DarkButton className={styles.button} onClick={onAccept}>
+        <DarkButton disabled={!hasChanges} className={styles.button} onClick={onAccept}>
           Save changes
         </DarkButton>
       </div>

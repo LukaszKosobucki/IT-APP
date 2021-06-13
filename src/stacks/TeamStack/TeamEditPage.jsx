@@ -22,6 +22,7 @@ import {
   getTeamMembers,
   getTeamMembersImages,
 } from "../../store/actions/teams";
+import { isThursday } from "date-fns";
 
 class TeamFormPage extends Component {
   state = {
@@ -90,6 +91,15 @@ class TeamFormPage extends Component {
     this.setState({ [property]: data });
   };
 
+  hasChanges = () => {
+    return this.state.image.new
+    || this.state.team.name !== this.state.name
+    || this.state.team.description !== this.state.description
+    || this.state.team.sportId !== this.state.sportId
+    || this.state.team.level !== this.state.level
+    || this.state.team.level !== this.state.level;
+  }
+
   onAccept = () => {
     if (this.state.avatar.new && this.state.avatar.old) {
       removeImageFromStorage(this.props.userData.avatar);
@@ -134,6 +144,7 @@ class TeamFormPage extends Component {
           onAccept={this.onAccept}
           onCancel={this.onCancel}
           onChange={this.onInputChange}
+          hasChanges={this.hasChanges()}
           onSelectChange={this.onSelectChange}
           sportId={this.state.sportId}
           level={this.state.level}
