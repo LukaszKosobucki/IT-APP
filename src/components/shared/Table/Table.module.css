@@ -6,7 +6,7 @@
 }
 
 .tableRow {
-  height: 62px;
+  height: 3.1em;
   border-right: 56px solid transparent;
   border-left: 56px solid transparent;
 }
@@ -16,8 +16,25 @@
 }
 
 .tableHeader {
-  height: 62px;
+  height: 3.1em;
   background-color: var(--mediumgrey);
   font-weight: 700;
-  font-size: 20px;
+}
+
+@media (max-width: 900px) {
+  .tableHeader,.table {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 900px) {
+  .tableHeader,.table {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tableHeader,.table {
+    font-size: 20px;
+  }
 }
