@@ -2,10 +2,11 @@ import React from "react";
 import styles from "./Navbar.module.css";
 import { connect } from "react-redux";
 import { logOut } from "../../../store/actions/auth";
-import { HOME, LOGIN } from "../../../constants/paths";
+import { ABOUT, HOME, LOGIN } from "../../../constants/paths";
 import { withRouter } from "react-router-dom";
 import { Button } from "../../shared/Buttons/Buttons";
 import { NavLink } from "react-router-dom";
+import { ReactComponent as Logo } from "../../../static/images/Logo.svg";
 
 const NavBar = (props) => {
   const LogOutOnClick = () => {
@@ -16,9 +17,9 @@ const NavBar = (props) => {
   return (
     <div className={styles.navbar}>
       <NavLink to={HOME} className={styles.logo}>
-        LOGO
+        <Logo />
       </NavLink>
-      <NavLink to={HOME} className={styles.link}>
+      <NavLink to={ABOUT} className={styles.link}>
         About
       </NavLink>
       <Button

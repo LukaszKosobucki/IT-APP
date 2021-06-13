@@ -2,7 +2,7 @@
   width: 100%;
   border-radius: 5px;
   border: 2px solid white;
-  background-color: #ffe2e2;
+  background-color: #bbcbe5;
 }
 
 .tableRow {
@@ -17,7 +17,7 @@
 
 .tableHeader {
   height: 62px;
-  background-color: rgb(255, 100, 100);
+  background-color: var(--mediumgrey);
   font-weight: 700;
   font-size: 20px;
 }

@@ -4,6 +4,7 @@ import UserLayout from "../../components/AccountForm/AccountForm";
 import { HOME, MY_ACCOUNT } from "../../constants/paths";
 import { addImageToStorage, removeImageFromStorage } from "../../utils/files";
 import { getSports } from "../../store/actions/sports";
+import { editUserData } from "../../store/actions/auth";
 
 class UserAdmin extends Component {
   state = {
@@ -11,6 +12,7 @@ class UserAdmin extends Component {
     surname: "",
     mail: "",
     avatar: { new: "", old: "" },
+    description: "",
   };
 
   componentDidMount() {
@@ -42,24 +44,30 @@ class UserAdmin extends Component {
     this.setState({ [property]: data.value });
   };
 
-  onAccept = () => {
+  onAccept = (event) => {
+    event.preventDefault();
     if (this.state.avatar.new && this.state.avatar.old) {
       removeImageFromStorage(this.props.userData.avatar);
     }
     const path = this.state.avatar.new
       ? addImageToStorage(this.props.userData.id, this.state.avatar.new)
       : this.props.userData.avatar;
-    // ApiService.users()
-    //   .editUser({
-    //     changedData: {
-    //       name: this.state.name,
-    //       surname: this.state.surname,
-    //       avatar: path,
-    //     },
-    //     id: this.props.userData.id,
-    //   })
-    //   .catch(console.error);
-    // this.props.history.push(ADMIN);
+    const userData = {
+      ...this.state,
+      avatar: path,
+    };
+    editUserData(this.props.userData.id, userData).then(() =>
+      this.props.history.push(MY_ACCOUNT)
+    );
+  };
+
+  hasChanges = () => {
+    // return false;
+    return (
+      this.state.avatar.new ||
+      this.props.userData.name !== this.state.name ||
+      this.props.userData.description !== this.state.description
+    );
   };
 
   onCancel = () => this.props.history.push(MY_ACCOUNT);
@@ -78,6 +86,7 @@ class UserAdmin extends Component {
               : URL.createObjectURL(this.state.avatar.new)
           }
           onChange={this.onInputChange}
+          hasChanges={this.hasChanges()}
           onSelectChange={this.onSelectChange}
           onFileChange={this.onFileInputChange}
           onAccept={this.onAccept}

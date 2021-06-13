@@ -32,10 +32,14 @@
 }
 
 .logo {
-  margin: auto auto auto 20px;
+  margin: -5px auto auto 20px;
   font-size: 30px;
   font-weight: 700;
   color: white;
+}
+
+.logo > img {
+  width: 10px;
 }
 
 @media (max-width: 700px) {

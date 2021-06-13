@@ -16,6 +16,7 @@ const userLayout = ({
   level,
   description,
   onChange,
+  hasChanges,
   onSelectChange,
   onFileChange,
   avatar,
@@ -30,7 +31,11 @@ const userLayout = ({
         <Button className={styles.button} onClick={onCancel}>
           Cancel
         </Button>
-        <DarkButton className={styles.button} onClick={onAccept}>
+        <DarkButton
+          disabled={!hasChanges}
+          className={styles.button}
+          onClick={(event) => onAccept(event)}
+        >
           Save changes
         </DarkButton>
       </div>

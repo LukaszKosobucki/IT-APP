@@ -7,8 +7,12 @@ import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWith
 import EventLayout from "../../components/EventLayout/EventLayout";
 import TableItem from "../../components/shared/Table/TableItem/TableItem";
 import Moment from "moment";
-import { DropdownButton } from "../../components/shared/Buttons/Buttons";
+import {
+  DarkButton,
+  DropdownButton,
+} from "../../components/shared/Buttons/Buttons";
 import { Link } from "react-router-dom";
+import { EVENT_TYPE_FOR_SELECT, USER_TYPES } from "../../constants/userTypes";
 
 class UserAdmin extends Component {
   state = {
@@ -75,6 +79,17 @@ class UserAdmin extends Component {
     }
   };
 
+  checkIfCanSignUp = () => {
+    if (
+      (this.props.userData.type === USER_TYPES.sportsman &&
+        this.state.event.type === "solo") ||
+      (this.props.userData.type === USER_TYPES.trainer &&
+        this.state.event.type === "team")
+    ) {
+      return true;
+    } else return false;
+  };
+
   render() {
     console.log(this.state);
     this.state.sports?.find((sport) => {
@@ -82,7 +97,16 @@ class UserAdmin extends Component {
     });
     return (
       <main>
-        <TitleWithButtons title={this.state.event?.name || ""} />
+        <TitleWithButtons
+          title={this.state.event?.name || ""}
+          buttons={
+            this.checkIfCanSignUp() ? (
+              <DarkButton>Sign up for event</DarkButton>
+            ) : (
+              ""
+            )
+          }
+        />
         <EventLayout
           event={this.state.event}
           sports={this.props.sports}

@@ -28,10 +28,11 @@ class AuthService extends Component {
             user.data().avatar &&
               firebase.storage().ref(user.data().avatar).getDownloadURL(),
             user.data(),
+            user.id,
           ]);
         })
-        .then(([avatarURL, user]) => {
-          this.props.setUserData({ ...user, avatarURL });
+        .then(([avatarURL, user, id]) => {
+          this.props.setUserData({ ...user, avatarURL, id });
           this.setState({ loading: false });
         })
         .catch(logNetworkError);
