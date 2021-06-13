@@ -1,28 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  TEAM,
-  HOME,
-  USER,
-  MY_ACCOUNT,
-  MY_EVENTS,
-  MY_TEAMS,
-} from "../../constants/paths";
+import { HOME, MY_TEAMS } from "../../constants/paths";
 import { getSports } from "../../store/actions/sports";
-import { getEvent, getParticipantsForEvent } from "../../store/actions/events";
 import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
 import TeamForm from "../../components/TeamForm/TeamForm";
-import TableItem from "../../components/shared/Table/TableItem/TableItem";
-import Moment from "moment";
-import { DropdownButton } from "../../components/shared/Buttons/Buttons";
-import { Link } from "react-router-dom";
 import { addImageToStorage, removeImageFromStorage } from "../../utils/files";
 import {
+  addNewTeam,
+  editTeam,
   getTeam,
   getTeamMembers,
   getTeamMembersImages,
 } from "../../store/actions/teams";
-import { isThursday } from "date-fns";
 
 class TeamFormPage extends Component {
   state = {
@@ -92,32 +81,55 @@ class TeamFormPage extends Component {
   };
 
   hasChanges = () => {
-    return this.state.image.new
-    || this.state.team.name !== this.state.name
-    || this.state.team.description !== this.state.description
-    || this.state.team.sportId !== this.state.sportId
-    || this.state.team.level !== this.state.level
-    || this.state.team.level !== this.state.level;
-  }
+    return (
+      this.state.image.new ||
+      this.state.team.name !== this.state.name ||
+      this.state.team.description !== this.state.description ||
+      this.state.team.sportId !== this.state.sportId ||
+      this.state.team.level !== this.state.level ||
+      this.state.team.level !== this.state.level
+    );
+  };
 
-  onAccept = () => {
-    if (this.state.avatar.new && this.state.avatar.old) {
-      removeImageFromStorage(this.props.userData.avatar);
+  onAccept = (event) => {
+    event.preventDefault();
+    this.props.match.params.teamId ? this.editTeam() : this.addTeam();
+    this.props.history.push(MY_TEAMS);
+  };
+
+  addTeam = () => {
+    const newTeam = {
+      description: this.state.description,
+      name: this.state.name,
+      image: "",
+      level: this.state.level,
+      sportId: this.state.sportId,
+      trainerId: this.props.userData.id,
+      sportsmansIds: [],
+    };
+    addNewTeam(newTeam, this.state.image.new);
+  };
+
+  editTeam = () => {
+    let newTeam = {
+      description: this.state.description,
+      name: this.state.name,
+      image: this.state.team.image,
+      level: this.state.level,
+      sportId: this.state.sportId,
+      trainerId: this.props.userData.id,
+      sportsmansIds: this.state.sportsmansIds,
+    };
+    if (this.state.image.new && this.state.image.old) {
+      removeImageFromStorage(this.state.team.image);
     }
-    const path = this.state.avatar.new
-      ? addImageToStorage(this.props.userData.id, this.state.avatar.new)
-      : this.props.userData.avatar;
-    // ApiService.users()
-    //   .editUser({
-    //     changedData: {
-    //       name: this.state.name,
-    //       surname: this.state.surname,
-    //       avatar: path,
-    //     },
-    //     id: this.props.userData.id,
-    //   })
-    //   .catch(console.error);
-    // this.props.history.push(ADMIN);
+    if (this.state.image.new) {
+      newTeam.image = addImageToStorage(
+        `team/${this.state.id}`,
+        this.state.image.new
+      );
+    }
+    editTeam(this.state.id, newTeam);
   };
 
   onCancel = () => this.props.history.push(MY_TEAMS);

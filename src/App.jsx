@@ -49,7 +49,6 @@ import TeamEditPage from "./stacks/TeamStack/TeamEditPage";
 function App() {
   return (
     <Provider store={store}>
-
       <AuthService>
         <BrowserRouter>
           <Switch>

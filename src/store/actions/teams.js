@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import { logNetworkError } from "../../utils/error";
+import { addImageToStorage } from "../../utils/files";
 
 export const getMyTeams = (teamsId) => {
   let teams = null;
@@ -58,3 +59,27 @@ export const getTeamMembersImages = async (teamMembers) => {
     logNetworkError(error);
   }
 };
+
+export const addNewTeam = (teamData, photo) =>
+  firebase
+    .firestore()
+    .collection("teams")
+    .add(teamData)
+    .then((docRef) => {
+      return Promise.all([
+        addImageToStorage(`team/${docRef.id}`, photo),
+        docRef.id,
+      ]);
+    })
+    .then(([path, id]) =>
+      firebase.firestore().collection("teams").doc(id).update({ image: path })
+    )
+    .catch(logNetworkError);
+
+export const editTeam = (teamId, teamData) =>
+  firebase
+    .firestore()
+    .collection("teams")
+    .doc(teamId)
+    .update(teamData)
+    .catch(logNetworkError);

@@ -3,12 +3,14 @@ import styles from "./Page.module.css";
 import { Link } from "react-router-dom";
 import { LOGIN } from "../../constants/paths";
 import firebase from "firebase/app";
+import { USER_TYPES } from "../../constants/userTypes";
 
 class SignUpPage extends Component {
   state = {
     email: "",
     password: "",
     passwordRepeat: "",
+    affiliation: "",
   };
 
   onChangeHandler = (property) => (event) =>
@@ -22,17 +24,57 @@ class SignUpPage extends Component {
       console.log("wrong pw");
       return;
     }
+    let newUserData = {};
+    if (this.state.affiliation === USER_TYPES.sportsman) {
+      newUserData = {
+        avatar: "default/user.png",
+        description: "",
+        email: this.state.email,
+        level: "",
+        name: this.state.name,
+        surname: this.state.surname,
+        sportId: "",
+        teamsIds: [],
+        type: USER_TYPES.sportsman,
+      };
+    } else if (this.state.affiliation === USER_TYPES.trainer) {
+      newUserData = {
+        avatar: "default/user.png",
+        description: "",
+        email: this.state.email,
+        name: this.state.name,
+        surname: this.state.surname,
+        teamsIds: [],
+        type: USER_TYPES.trainer,
+      };
+    } else {
+      newUserData = {
+        avatar: "default/user.png",
+        description: "",
+        email: this.state.email,
+        name: this.state.name,
+        eventsIds: [],
+        type: USER_TYPES.organizer,
+        verified: false,
+      };
+    }
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((userCredential) => {
         console.log("Succesfully signed up " + userCredential.user.email);
+        return firebase
+          .firestore()
+          .collection("users")
+          .doc(userCredential.user.uid)
+          .set(newUserData);
       })
       .catch((error) => {
         console.error(error.code + " " + error.message);
       });
   };
   render() {
+    console.log(this.state);
     return (
       <main className={styles.loginContainer}>
         <form className={styles.centered_right}>
@@ -64,15 +106,17 @@ class SignUpPage extends Component {
             />
           </div>
           <div className={styles.formGroup}>
-            <input
-              type="number"
+            <select
+              name="affiliation"
               className={styles.textInput}
-              value={this.state.age}
-              min="18"
-              max="99"
-              placeholder="Age"
-              onChange={this.onChangeHandler("age")}
-            />
+              value={this.state.affiliation}
+              onChange={this.onChangeHandler("affiliation")}
+            >
+              <option value="affiliation">--Choose One--</option>
+              <option value="sportsman">Sportsman</option>
+              <option value="trainer">Trainer</option>
+              <option value="organizer">Event Organizer</option>
+            </select>
           </div>
           <div className={styles.formGroup}>
             <input
@@ -84,29 +128,18 @@ class SignUpPage extends Component {
               onChange={this.onChangeHandler("name")}
             />
           </div>
-          <div className={styles.formGroup}>
-            <input
-              pattern="[a-zA-Z]*"
-              type="text"
-              className={styles.textInput}
-              value={this.state.surname}
-              placeholder="Surname"
-              onChange={this.onChangeHandler("surname")}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <select
-              name="affiliation"
-              className={styles.textInput}
-              value={this.state.affiliation}
-              onChange={this.onChangeHandler("affiliation")}
-            >
-              <option value="affiliation">--Choose One--</option>
-              <option value="solo">Solo</option>
-              <option value="team_owner">Team Owner</option>
-              <option value="event_organizer">Event Organizer</option>
-            </select>
-          </div>
+          {this.state.affiliation !== USER_TYPES.organizer && (
+            <div className={styles.formGroup}>
+              <input
+                pattern="[a-zA-Z]*"
+                type="text"
+                className={styles.textInput}
+                value={this.state.surname}
+                placeholder="Surname"
+                onChange={this.onChangeHandler("surname")}
+              />
+            </div>
+          )}
           <div className={styles.formGroup}>
             <Link to={LOGIN} className={styles.alink}>
               Already have an account? Sign In

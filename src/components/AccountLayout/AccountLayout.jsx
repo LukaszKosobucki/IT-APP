@@ -7,11 +7,13 @@ import { USER_LEVELS } from "../../constants/userLevels";
 import { Link } from "react-router-dom";
 import { EDIT_ACCOUNT } from "../../constants/paths";
 
-const HomePage = ({ userData, sports }) => (
+const HomePage = ({ userData, sports, noButton }) => (
   <div className={styles.accountLayout}>
-    <Link to={EDIT_ACCOUNT}>
-      <DarkButton className={styles.editButton}>Edit account info</DarkButton>
-    </Link>
+    {!noButton && (
+      <Link to={EDIT_ACCOUNT}>
+        <DarkButton className={styles.editButton}>Edit account info</DarkButton>
+      </Link>
+    )}
     <div className={styles.container}>
       <div className={styles.imageContainer}>
         {userData.avatarURL && <img src={userData.avatarURL} />}
@@ -30,7 +32,7 @@ const HomePage = ({ userData, sports }) => (
               value={
                 sports
                   ? sports.find((sport) => sport.value === userData.sportId)
-                      .label
+                      ?.label
                   : ""
               }
             />

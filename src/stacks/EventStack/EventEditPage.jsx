@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { TEAM, HOME, USER, MY_ACCOUNT, MY_EVENTS } from "../../constants/paths";
+import { HOME, MY_EVENTS } from "../../constants/paths";
 import { getSports } from "../../store/actions/sports";
-import { getEvent, getParticipantsForEvent } from "../../store/actions/events";
+import {
+  addNewEvent,
+  editEvent,
+  getEvent,
+  getParticipantsForEvent,
+} from "../../store/actions/events";
 import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
 import EventForm from "../../components/EventForm/EventForm";
-import TableItem from "../../components/shared/Table/TableItem/TableItem";
-import Moment from "moment";
-import { DropdownButton } from "../../components/shared/Buttons/Buttons";
-import { Link } from "react-router-dom";
 import { addImageToStorage, removeImageFromStorage } from "../../utils/files";
 
 class EventFormPage extends Component {
@@ -81,39 +82,69 @@ class EventFormPage extends Component {
     this.setState({ [property]: data });
   };
 
-  onAccept = () => {
-    if (this.state.avatar.new && this.state.avatar.old) {
-      removeImageFromStorage(this.props.userData.avatar);
+  onAccept = (event) => {
+    event.preventDefault();
+    this.props.match.params.eventId ? this.editEvent() : this.addEvent();
+    this.props.history.push(MY_EVENTS);
+  };
+
+  addEvent = () => {
+    const newEvent = {
+      applications: [],
+      brackets: [],
+      description: this.state.description,
+      endDate: this.state.endDate,
+      image: "",
+      level: this.state.level,
+      matchesIds: [],
+      name: this.state.name,
+      organizerId: this.props.userData.id,
+      participantsIds: [],
+      sportId: this.state.sportId,
+      type: this.state.type,
+      startDate: this.state.startDate,
+      scale: this.state.scale,
+    };
+    addNewEvent(newEvent, this.state.image.new);
+  };
+
+  editEvent = () => {
+    let newEvent = {
+      description: this.state.description,
+      endDate: this.state.endDate,
+      image: this.state.event.image,
+      level: this.state.level,
+      name: this.state.name,
+      sportId: this.state.sportId,
+      type: this.state.type,
+      startDate: this.state.startDate,
+      scale: this.state.scale,
+    };
+    if (this.state.image.new && this.state.image.old) {
+      removeImageFromStorage(this.state.event.image);
     }
-    const path = this.state.avatar.new
-      ? addImageToStorage(this.props.userData.id, this.state.avatar.new)
-      : this.props.userData.avatar;
-    // ApiService.users()
-    //   .editUser({
-    //     changedData: {
-    //       name: this.state.name,
-    //       surname: this.state.surname,
-    //       avatar: path,
-    //     },
-    //     id: this.props.userData.id,
-    //   })
-    //   .catch(console.error);
-    // this.props.history.push(ADMIN);
+    if (this.state.image.new) {
+      newEvent.image = addImageToStorage(
+        `event/${this.state.id}`,
+        this.state.image.new
+      );
+    }
+    editEvent(this.state.id, newEvent);
   };
 
   hasChanges = () => {
-    console.log(this.state.event.startDate)
-    console.log(this.state.startDate)
-    return this.state.image.new
-    || this.state.event.name !== this.state.name
-    || this.state.event.scale !== this.state.scale
-    || this.state.event.type !== this.state.type
-    || this.state.event.sportId !== this.state.sportId
-    || this.state.event.level !== this.state.level
-    || this.state.event.description !== this.state.description
-    || this.state.event.startDate !== this.state.startDate
-    || this.state.event.endDate !== this.state.endDate;
-  }
+    return (
+      this.state.image.new ||
+      this.state.event.name !== this.state.name ||
+      this.state.event.scale !== this.state.scale ||
+      this.state.event.type !== this.state.type ||
+      this.state.event.sportId !== this.state.sportId ||
+      this.state.event.level !== this.state.level ||
+      this.state.event.description !== this.state.description ||
+      this.state.event.startDate !== this.state.startDate ||
+      this.state.event.endDate !== this.state.endDate
+    );
+  };
 
   onCancel = () => this.props.history.push(MY_EVENTS);
 
