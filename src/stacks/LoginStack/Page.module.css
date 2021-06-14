@@ -1,12 +1,23 @@
-.loginContainer {
-  background-color: #8d99ae;
+.loginContainer{
+  position: relative;
+  margin: 20px;
+  padding: 20px;
+  height: calc(100vh - 40px);
+  border-radius: 4px;
+  overflow-y: scroll;
+  background-color: white;
+  overflow: overlay;
   font-size: 10px;
-  height: 100vh;
-  width: 100vw;
+}
+
+@media (max-width: 900px) {
+  .loginContainer {
+    font-size: 8px;
+  }
 }
 
 .alink {
-  font-size: 2rem;
+  font-size: 2em;
   color: #2b2d42;
   text-decoration: none;
   align-content: center;
@@ -18,22 +29,22 @@
 }
 
 .centered_left {
-  width: 50rem;
+  width: 50em;
   margin-left: 10%;
-  padding-top: 5%;
+  padding-top: 8vh;
 }
 
 .centered_right {
   float: right;
-  width: 50rem;
+  width: 50em;
   margin-right: 10%;
-  padding-top: 5%;
+  padding-top: 8vh;
 }
 
 .centered {
-  width: 50rem;
+  width: 50em;
   margin: auto;
-  padding-top: 5%;
+  padding-top: 8vh;
 }
 
 .formGroup {
@@ -47,12 +58,12 @@
   background-color: #2b2d42;
   position: relative;
   width: 100%;
-  border-radius: 1rem;
+  border-radius: 0.7em;
   border-style: none;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  padding: 0.5rem 0 0.5rem 2rem;
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  padding: 0.3em 0 0.3em 1em;
   color: #edf2f4;
 }
 
@@ -68,8 +79,7 @@
   display: inline;
   margin-right: 0;
   justify-content: right;
-  font-size: 2rem;
-  border-radius: 1rem;
+  font-size: 2em;
   border-style: none;
   background-color: #ffffff;
   cursor: pointer;

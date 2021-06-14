@@ -28,29 +28,31 @@ class LostPasswordPage extends Component {
   };
   render() {
     return (
-      <form className={styles.centered}>
-        <div className={styles.formGroup}>
-          <label className={styles.alink}>Enter e-mail adress on which you want to restore password</label>
-          <input
-            type="email"
-            className={styles.textInput}
-            value={this.state.email}
-            placeholder="E-mail"
-            onChange={this.onChangeHandler("email")}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <Link to={LOGIN} className={styles.alink}>Back to Login</Link>
-          <button
-            type="submit"
-            className={styles.buttonInput}
-            onClick={this.sendPasswordResetEmail}
-          >
-            Submit
-          </button>
-          <p />
-        </div>
-      </form>
+      <main className={styles.loginContainer}>
+        <form className={styles.centered}>
+          <div className={styles.formGroup}>
+            <label className={styles.alink}>Enter e-mail adress on which you want to restore password</label>
+            <input
+              type="email"
+              className={styles.textInput}
+              value={this.state.email}
+              placeholder="E-mail"
+              onChange={this.onChangeHandler("email")}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <Link to={LOGIN} className={styles.alink}>Back to Login</Link>
+            <button
+              type="submit"
+              className={styles.buttonInput}
+              onClick={this.sendPasswordResetEmail}
+            >
+              Submit
+            </button>
+            <p />
+          </div>
+        </form>
+      </main>
     );
   }
 }

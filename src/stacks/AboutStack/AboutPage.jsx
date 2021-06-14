@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styles from "./AboutPage.module.css";
-import { Button } from "../../components/shared/Buttons/Buttons";
+import { DarkButton } from "../../components/shared/Buttons/Buttons";
 import { SIGN_UP } from "../../constants/paths";
 class AboutPage extends Component {
 
@@ -35,10 +35,10 @@ class AboutPage extends Component {
                         Each of them has different features available - starting with managing your own profie through managing your team and finishing with managing whole sport event!
                         Do not waste more time or energy! Let the application help you.
                         Try it now!
-                </p>
+                    </p>
                 </div>
 
-                <Button onClick={this.goSignUp} >Sign up</Button>
+                <DarkButton onClick={this.goSignUp} >Sign up</DarkButton>
             </div>
 
         )
