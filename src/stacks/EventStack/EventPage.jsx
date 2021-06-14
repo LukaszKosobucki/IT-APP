@@ -6,18 +6,23 @@ import { getEvent, getParticipantsForEvent } from "../../store/actions/events";
 import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
 import EventLayout from "../../components/EventLayout/EventLayout";
 import TableItem from "../../components/shared/Table/TableItem/TableItem";
-import Moment from "moment";
 import {
   DarkButton,
   DropdownButton,
 } from "../../components/shared/Buttons/Buttons";
 import { Link } from "react-router-dom";
-import { EVENT_TYPE_FOR_SELECT, USER_TYPES } from "../../constants/userTypes";
+import { USER_TYPES } from "../../constants/userTypes";
+import SignUpModal from "../../components/SignUpModal/SignUpModal";
+import Select from "../../components/shared/Select/Select";
+import { getMyTeams } from "../../store/actions/teams";
+import firebase from "firebase";
 
 class UserAdmin extends Component {
   state = {
     event: {},
     participants: [],
+    showModal: false,
+    noticeId: "",
   };
 
   componentDidMount() {
@@ -38,6 +43,27 @@ class UserAdmin extends Component {
         console.log(participants);
         this.setState({ participants });
       });
+    this.props.userData.type === USER_TYPES.trainer &&
+      this.props.userData.teamsIds.length &&
+      firebase
+        .firestore()
+        .collection("teams")
+        .where(
+          firebase.firestore.FieldPath.documentId(),
+          "in",
+          this.props.userData.teamsIds
+        )
+        .get()
+        .then((docs) => {
+          const teams = docs.docs.map((doc) => ({
+            label: doc.data().name,
+            value: doc.id,
+          }));
+          this.setState({
+            myTeams: teams,
+          });
+        })
+        .catch(console.error);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -79,29 +105,85 @@ class UserAdmin extends Component {
     }
   };
 
+  onSelectChange = (property) => (data) => {
+    this.setState({ [property]: data.value });
+  };
+
+  toggleShowModal = () => this.setState({ showModal: !this.state.showModal });
+
   checkIfCanSignUp = () => {
     if (
-      (this.props.userData.type === USER_TYPES.sportsman &&
-        this.state.event.type === "solo") ||
-      (this.props.userData.type === USER_TYPES.trainer &&
-        this.state.event.type === "team")
+      this.props.userData.type === USER_TYPES.sportsman &&
+      this.state.event.type === "solo"
+    ) {
+      this.setState({ noticeId: this.props.userData.id });
+      return true;
+    } else if (
+      this.props.userData.type === USER_TYPES.trainer &&
+      this.state.event.type === "team"
     ) {
       return true;
     } else return false;
   };
 
+  addNewNoticeToEvent = () => {
+    this.state.event.applications.find((id) => this.state.noticeId === id)
+      ? console.log("You signed up for this before")
+      : this.addNotice();
+  };
+
+  addNotice = () => {
+    firebase
+      .firestore()
+      .collection("events")
+      .doc(this.props.match.params.eventId)
+      .update({
+        applications: [...this.state.event.applications, this.state.noticeId],
+      });
+    this.toggleShowModal();
+  };
+
   render() {
-    console.log(this.state);
     this.state.sports?.find((sport) => {
       return sport.value === this.props.userData.sportId;
     });
     return (
       <main>
+        {this.state.showModal && (
+          <SignUpModal
+            onCloseClick={this.toggleShowModal}
+            header={"Sign up for event"}
+            buttons={
+              <DarkButton
+                disabled={!this.state.noticeId.length}
+                onClick={() => this.addNewNoticeToEvent()}
+              >
+                Sign up
+              </DarkButton>
+            }
+          >
+            {this.props.userData.type === USER_TYPES.sportsman ? (
+              "Do you want to sign up for this event? By clicking button below you will notice the event holder about your willingness"
+            ) : (
+              <div>
+                Choose the team you want to sign up with:
+                <Select
+                  options={this.state.myTeams}
+                  onChange={(data) => this.onSelectChange("noticeId")(data)}
+                />
+                By clicking button below you will notice the event holder about
+                your willingness to participate in this event with chosen team.
+              </div>
+            )}
+          </SignUpModal>
+        )}
         <TitleWithButtons
           title={this.state.event?.name || ""}
           buttons={
             this.checkIfCanSignUp() ? (
-              <DarkButton>Sign up for event</DarkButton>
+              <DarkButton onClick={() => this.toggleShowModal()}>
+                Sign up for event
+              </DarkButton>
             ) : (
               ""
             )

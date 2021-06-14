@@ -3,9 +3,10 @@ import styles from "./EventForm.module.css";
 import { Input, Textarea } from "../shared/Inputs/Inputs";
 import { CustomDatePicker } from "../shared/Inputs/DateSelect";
 import { Button, DarkButton } from "../shared/Buttons/Buttons";
-import { EVENT_TYPE_FOR_SELECT, USER_TYPES } from "../../constants/userTypes";
+import { EVENT_TYPE_FOR_SELECT } from "../../constants/userTypes";
 import { USER_LEVELS_FOR_SELECT } from "../../constants/userLevels";
 import Select from "../shared/Select/Select";
+import { Table } from "../shared/Table/Table";
 
 const eventForm = ({
   name,
@@ -26,6 +27,8 @@ const eventForm = ({
   startDate,
   endDate,
   onDateSelectChange,
+  applications,
+  template,
 }) => {
   return (
     <form>
@@ -33,7 +36,11 @@ const eventForm = ({
         <Button className={styles.button} onClick={onCancel}>
           Cancel
         </Button>
-        <DarkButton disabled={!hasChanges} className={styles.button} onClick={onAccept}>
+        <DarkButton
+          disabled={!hasChanges}
+          className={styles.button}
+          onClick={onAccept}
+        >
           Save changes
         </DarkButton>
       </div>
@@ -108,6 +115,9 @@ const eventForm = ({
         value={description || event.description}
         onChange={onChange("description")}
       />
+      {applications.lenght && (
+        <Table data={applications} template={template} headers={["Name", ""]} />
+      )}
     </form>
   );
 };

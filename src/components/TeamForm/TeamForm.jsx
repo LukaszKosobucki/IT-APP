@@ -4,6 +4,7 @@ import { Input, Textarea } from "../shared/Inputs/Inputs";
 import { Button, DarkButton } from "../shared/Buttons/Buttons";
 import { USER_LEVELS_FOR_SELECT } from "../../constants/userLevels";
 import Select from "../shared/Select/Select";
+import { Table } from "../shared/Table/Table";
 
 const teamForm = ({
   name,
@@ -19,6 +20,11 @@ const teamForm = ({
   onCancel,
   sports,
   team,
+  selectOptions,
+  onSendToUser,
+  selectedUser,
+  teamMembers,
+  template,
 }) => {
   return (
     <form>
@@ -78,6 +84,18 @@ const teamForm = ({
         value={description || team.description}
         onChange={onChange("description")}
       />
+      <div className={styles.memberContainer}>
+        <Select
+          label={"Add new member"}
+          options={selectOptions}
+          value={selectOptions?.find((user) => user === selectedUser)}
+          onChange={onSelectChange("selectedUser")}
+        />
+        <DarkButton onClick={(event) => onSendToUser(event)}>
+          Send application to user
+        </DarkButton>
+      </div>
+      <Table data={teamMembers} headers={["Name", ""]} template={template} />
     </form>
   );
 };

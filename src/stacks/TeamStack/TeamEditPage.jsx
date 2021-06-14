@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { HOME, MY_TEAMS } from "../../constants/paths";
+import { HOME, MY_TEAMS, TEAM } from "../../constants/paths";
 import { getSports } from "../../store/actions/sports";
 import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
 import TeamForm from "../../components/TeamForm/TeamForm";
@@ -12,6 +12,11 @@ import {
   getTeamMembers,
   getTeamMembersImages,
 } from "../../store/actions/teams";
+import TableItem from "../../components/shared/Table/TableItem/TableItem";
+import { DropdownButton } from "../../components/shared/Buttons/Buttons";
+import { Link } from "react-router-dom";
+import firebase from "firebase";
+import { logNetworkError } from "../../utils/error";
 
 class TeamFormPage extends Component {
   state = {
@@ -22,6 +27,7 @@ class TeamFormPage extends Component {
     image: { new: "", old: "" },
     sportId: "",
     level: "",
+    selectedUser: "",
   };
 
   componentDidMount() {
@@ -49,6 +55,22 @@ class TeamFormPage extends Component {
         .then((members) =>
           this.setState({
             teamMembers: members,
+          })
+        )
+        .then(() =>
+          firebase
+            .firestore()
+            .collection("users")
+            .where("sportId", "==", this.state.sportId)
+            .get()
+        )
+        .then((users) =>
+          this.setState({
+            usersForSelect: users.docs.map((user) => ({
+              label: `${user.data().name} ${user.data().surname}`,
+              value: user.id,
+              applications: user.data().applications,
+            })),
           })
         );
   }
@@ -117,8 +139,6 @@ class TeamFormPage extends Component {
       image: this.state.team.image,
       level: this.state.level,
       sportId: this.state.sportId,
-      trainerId: this.props.userData.id,
-      sportsmansIds: this.state.sportsmansIds,
     };
     if (this.state.image.new && this.state.image.old) {
       removeImageFromStorage(this.state.team.image);
@@ -133,6 +153,65 @@ class TeamFormPage extends Component {
   };
 
   onCancel = () => this.props.history.push(MY_TEAMS);
+
+  onSendApplication = (event) => {
+    event.preventDefault();
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(this.state.selectedUser)
+      .update({
+        applications: [
+          ...this.state.usersForSelect.find(
+            (id) => id.value === this.state.selectedUser
+          ).applications,
+          this.props.match.params.teamId,
+        ],
+      })
+      .catch(logNetworkError);
+  };
+
+  onRemoveTeamMember = (userId) => {
+    const cpTeamMember = [...this.state.teamMembers];
+    const removedMember = cpTeamMember.splice(
+      cpTeamMember.findIndex((id) => id === userId),
+      1
+    );
+    firebase
+      .firestore()
+      .collection("teams")
+      .doc(this.props.match.params.teamId)
+      .update({
+        sportsmansIds: cpTeamMember,
+      })
+      .then(() => {
+        console.log(removedMember);
+        const cpTeamsIds = [...removedMember[0].teamsIds];
+        cpTeamsIds.splice(
+          cpTeamsIds.findIndex(
+            (teamId) => teamId === this.props.match.params.teamId
+          )
+        );
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(removedMember[0].id)
+          .update({
+            teamsIds: cpTeamsIds,
+          });
+      })
+      .catch(logNetworkError);
+  };
+
+  template = (row) => (
+    <TableItem key={row.value}>
+      {`${row.name} ${row.surname}` || "Brak"}
+      <DropdownButton>
+        <Link to={TEAM(row.value)}>View</Link>
+        <a onClick={() => this.onRemoveTeamMember(row.value)}>Remove</a>
+      </DropdownButton>
+    </TableItem>
+  );
 
   render() {
     console.log(this.state);
@@ -162,6 +241,11 @@ class TeamFormPage extends Component {
           level={this.state.level}
           onFileChange={this.onFileInputChange}
           name={this.state.name}
+          selectOptions={this.state.usersForSelect}
+          onSendToUser={this.onSendApplication}
+          selectedUser={this.state.selectedUser}
+          teamMembers={this.state.teamMembers}
+          template={this.template}
         />
       </main>
     );

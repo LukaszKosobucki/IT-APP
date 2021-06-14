@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { HOME, MY_EVENTS } from "../../constants/paths";
+import { HOME, MY_EVENTS, TEAM } from "../../constants/paths";
 import { getSports } from "../../store/actions/sports";
 import {
   addNewEvent,
@@ -11,6 +11,12 @@ import {
 import TitleWithButtons from "../../components/shared/TitleWithButtons/TitleWithButtons";
 import EventForm from "../../components/EventForm/EventForm";
 import { addImageToStorage, removeImageFromStorage } from "../../utils/files";
+import TableItem from "../../components/shared/Table/TableItem/TableItem";
+import { DropdownButton } from "../../components/shared/Buttons/Buttons";
+import { Link } from "react-router-dom";
+import { getTeam } from "../../store/actions/teams";
+import firebase from "firebase/app";
+import { logNetworkError } from "../../utils/error";
 
 class EventFormPage extends Component {
   state = {
@@ -25,6 +31,7 @@ class EventFormPage extends Component {
     type: "",
     startDate: null,
     endDate: null,
+    applications: [],
   };
 
   componentDidMount() {
@@ -52,7 +59,22 @@ class EventFormPage extends Component {
             id: doc.id,
           }));
           this.setState({ participants });
-        });
+        })
+        .then(
+          () =>
+            this.state.applications &&
+            Promise.all(
+              this.state.applications.map((application) => getTeam(application))
+            )
+        )
+        .then((teams) =>
+          this.setState({
+            applications: teams.map((team) => ({
+              name: team[1].name,
+              value: team[1].id,
+            })),
+          })
+        );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -146,7 +168,50 @@ class EventFormPage extends Component {
     );
   };
 
+  onAcceptTeam = (teamId) => {
+    const cpApplications = [...this.state.applications];
+    cpApplications.splice(
+      cpApplications.findIndex((id) => id === teamId),
+      1
+    );
+    firebase
+      .firestore()
+      .collection("events")
+      .doc(this.props.match.params.eventId)
+      .update({
+        participantsIds: [...this.state.participantsIds, teamId],
+        applications: cpApplications,
+      })
+      .catch(logNetworkError);
+  };
+
+  onRejectTeam = (teamId) => {
+    const cpApplications = [...this.state.applications];
+    cpApplications.splice(
+      cpApplications.findIndex((id) => id === teamId),
+      1
+    );
+    firebase
+      .firestore()
+      .collection("events")
+      .doc(this.props.match.params.eventId)
+      .update({
+        applications: cpApplications,
+      });
+  };
+
   onCancel = () => this.props.history.push(MY_EVENTS);
+
+  template = (row) => (
+    <TableItem key={row.value}>
+      {row.name || "Brak"}
+      <DropdownButton>
+        <Link to={TEAM(row.value)}>View</Link>
+        <a onClick={() => this.onAcceptTeam(row.value)}>Accept</a>
+        <a onClick={() => this.onRejectTeam(row.value)}>Reject</a>
+      </DropdownButton>
+    </TableItem>
+  );
 
   render() {
     console.log(this.state);
@@ -181,6 +246,8 @@ class EventFormPage extends Component {
           type={this.state.type}
           startDate={this.state.startDate}
           endDate={this.state.endDate}
+          applications={this.state.applications}
+          template={this.template}
         />
       </main>
     );
