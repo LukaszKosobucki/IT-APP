@@ -35,7 +35,6 @@ const EventLayout = ({ event, sports, template, headers, participants }) => {
             disabled
             value={Moment(event.endDate?.toDate()).format("DD/MM/Y hh:mm")}
           />
-          <Input label={"Mode"} disabled value={event.name} />
           <Input label={"Type"} disabled value={event.type} />
           <Input label={"Level"} disabled value={event.level} />
         </div>

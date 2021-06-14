@@ -54,7 +54,7 @@ class HomePage extends Component {
     firebase
       .firestore()
       .collection("events")
-      .orderBy('endDate')
+      .orderBy("endDate")
       .startAt(new Date())
       .get()
       .then((docs) => {
@@ -84,7 +84,6 @@ class HomePage extends Component {
       }
       <DropdownButton>
         <Link to={EVENT(row.id)}>View</Link>
-        <Link to={EVENT_EDIT(row.id)}>Edit</Link>
       </DropdownButton>
     </TableItem>
   );

@@ -214,7 +214,6 @@ class TeamFormPage extends Component {
   );
 
   render() {
-    console.log(this.state);
     this.state.sports?.find((sport) => {
       return sport.value === this.props.userData.sportId;
     });

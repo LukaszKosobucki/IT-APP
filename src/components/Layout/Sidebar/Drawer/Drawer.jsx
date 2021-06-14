@@ -18,7 +18,7 @@ const drawer = (props) => {
   {
     props.role === USER_TYPES.organizer &&
       elements.unshift({ name: "My events", path: MY_EVENTS });
-    props.role === USER_TYPES.trainer &&
+    props.role !== USER_TYPES.organizery &&
       elements.unshift({ name: "My teams", path: MY_TEAMS });
   }
   const drawerElements = elements.map((element) => (

@@ -18,6 +18,14 @@ export const getMyTeams = (teamsId) => {
     .catch(console.error);
 };
 
+export const getApplicated = (applicationsIds) => {
+  return Promise.all(
+    applicationsIds.map((application) =>
+      firebase.firestore().collection("teams").doc(application).get()
+    )
+  ).catch(logNetworkError);
+};
+
 export const getTeam = (teamId) =>
   firebase
     .firestore()

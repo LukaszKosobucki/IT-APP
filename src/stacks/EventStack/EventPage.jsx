@@ -14,7 +14,6 @@ import { Link } from "react-router-dom";
 import { USER_TYPES } from "../../constants/userTypes";
 import SignUpModal from "../../components/SignUpModal/SignUpModal";
 import Select from "../../components/shared/Select/Select";
-import { getMyTeams } from "../../store/actions/teams";
 import firebase from "firebase";
 
 class UserAdmin extends Component {
@@ -30,7 +29,7 @@ class UserAdmin extends Component {
     getEvent(this.props.match.params.eventId)
       .then(([imageURL, rest]) => {
         this.setState({
-          user: this.props.userData,
+          user: this.props.userData ? this.props.userData : {},
           event: { ...rest, imageURL },
         });
         return getParticipantsForEvent(rest.participantsIds, "teams");
@@ -40,11 +39,11 @@ class UserAdmin extends Component {
           ...doc.data(),
           id: doc.id,
         }));
-        console.log(participants);
         this.setState({ participants });
       });
-    this.props.userData.type === USER_TYPES.trainer &&
-      this.props.userData.teamsIds.length &&
+    this.props.userData &&
+      this.props.userData?.type === USER_TYPES.trainer &&
+      this.props.userData?.teamsIds.length &&
       firebase
         .firestore()
         .collection("teams")
@@ -109,16 +108,25 @@ class UserAdmin extends Component {
     this.setState({ [property]: data.value });
   };
 
-  toggleShowModal = () => this.setState({ showModal: !this.state.showModal });
+  toggleShowModal = () =>
+    this.props.userData.type === USER_TYPES.sportsman
+      ? this.setState({
+          showModal: !this.state.showModal,
+          noticeId: this.props.userData.id,
+        })
+      : this.setState({ showModal: !this.state.showModal });
 
   checkIfCanSignUp = () => {
     if (
+      this.props.userData &&
+      this.state.event &&
       this.props.userData.type === USER_TYPES.sportsman &&
       this.state.event.type === "solo"
     ) {
-      this.setState({ noticeId: this.props.userData.id });
       return true;
     } else if (
+      this.props.userData &&
+      this.state.event &&
       this.props.userData.type === USER_TYPES.trainer &&
       this.state.event.type === "team"
     ) {
